@@ -313,13 +313,13 @@
   async function fetchContext() {
     if (MODE !== 'pipeline') return '';
     try {
-      const [clientsRes, leadsRes] = await Promise.all([
-        fetch('/data/clients.json').then(r => r.ok ? r.json() : null).catch(() => null),
+      const [contextRes, leadsRes] = await Promise.all([
+        fetch('/data/pipeline-context.json').then(r => r.ok ? r.json() : null).catch(() => null),
         fetch('/data/leads.json').then(r => r.ok ? r.json() : null).catch(() => null),
       ]);
       const parts = [];
-      if (clientsRes) parts.push('CLIENTS: ' + JSON.stringify(clientsRes));
-      if (leadsRes)   parts.push('LEADS: '   + JSON.stringify(leadsRes));
+      if (contextRes) parts.push('BUSINESS DATA: ' + JSON.stringify(contextRes));
+      if (leadsRes)   parts.push('PIPELINE LEADS: ' + JSON.stringify(leadsRes));
       return parts.join('\n\n');
     } catch (e) {
       return '';
