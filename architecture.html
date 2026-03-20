@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="auth.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rylem — System Architecture</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Architecture-Specific Styles ── */
+    :root {
+      --color-user: #34d399;
+      --color-user-bg: rgba(52,211,153,0.08);
+      --color-user-border: rgba(52,211,153,0.25);
+      --color-ai: #6366f1;
+      --color-ai-bg: rgba(99,102,241,0.08);
+      --color-ai-border: rgba(99,102,241,0.25);
+      --color-cron: #3b82f6;
+      --color-cron-bg: rgba(59,130,246,0.08);
+      --color-cron-border: rgba(59,130,246,0.25);
+      --color-int: #f59e0b;
+      --color-int-bg: rgba(245,158,11,0.08);
+      --color-int-border: rgba(245,158,11,0.25);
+      --color-data: #a855f7;
+      --color-data-bg: rgba(168,85,247,0.08);
+      --color-data-border: rgba(168,85,247,0.25);
+    }
+
+    /* Platform Stats Bar */
+    .platform-stats {
+      display: flex;
+      gap: 0;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      overflow: hidden;
+      margin: 0 0 48px;
+    }
+    .pstat {
+      flex: 1;
+      padding: 20px 16px;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      transition: background 0.2s;
+    }
+    .pstat:last-child { border-right: none; }
+    .pstat:hover { background: rgba(255,255,255,0.03); }
+    .pstat-num {
+      font-size: 26px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #6366f1, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .pstat-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+    @media (max-width: 768px) {
+      .platform-stats { flex-wrap: wrap; }
+      .pstat { flex: calc(50% - 0px); border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .pstat:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.06); }
+    }
+
+    /* Legend */
+    .arch-legend {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #888;
+    }
+    .legend-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .legend-dot.user { background: var(--color-user); }
+    .legend-dot.ai { background: var(--color-ai); }
+    .legend-dot.cron { background: var(--color-cron); }
+    .legend-dot.int { background: var(--color-int); }
+    .legend-dot.data { background: var(--color-data); }
+
+    /* Layer Band */
+    .arch-section {
+      margin-bottom: 8px;
+    }
+    .layer-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      border-radius: 10px 10px 0 0;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .layer-header.user   { background: var(--color-user-bg);  color: var(--color-user);  border: 1px solid var(--color-user-border);  border-bottom: none; }
+    .layer-header.ai     { background: var(--color-ai-bg);    color: var(--color-ai);    border: 1px solid var(--color-ai-border);    border-bottom: none; }
+    .layer-header.cron   { background: var(--color-cron-bg);  color: var(--color-cron);  border: 1px solid var(--color-cron-border);  border-bottom: none; }
+    .layer-header.int    { background: var(--color-int-bg);   color: var(--color-int);   border: 1px solid var(--color-int-border);   border-bottom: none; }
+    .layer-header.data   { background: var(--color-data-bg);  color: var(--color-data);  border: 1px solid var(--color-data-border);  border-bottom: none; }
+    .layer-header span { font-size: 16px; }
+
+    .layer-band {
+      padding: 16px;
+      border-radius: 0 0 10px 10px;
+    }
+    .layer-band.user   { background: rgba(52,211,153,0.03);   border: 1px solid var(--color-user-border);  border-top: none; }
+    .layer-band.ai     { background: rgba(99,102,241,0.03);   border: 1px solid var(--color-ai-border);    border-top: none; }
+    .layer-band.cron   { background: rgba(59,130,246,0.03);   border: 1px solid var(--color-cron-border);  border-top: none; }
+    .layer-band.int    { background: rgba(245,158,11,0.03);   border: 1px solid var(--color-int-border);   border-top: none; }
+    .layer-band.data   { background: rgba(168,85,247,0.03);   border: 1px solid var(--color-data-border);  border-top: none; }
+
+    .layer-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Component Cards */
+    .comp-card {
+      background: rgba(10,10,15,0.6);
+      border-radius: 10px;
+      padding: 0;
+      cursor: pointer;
+      transition: all 0.25s;
+      position: relative;
+      flex: 1;
+      min-width: 160px;
+      max-width: 260px;
+      overflow: hidden;
+    }
+    .comp-card:hover { transform: translateY(-2px); }
+    .comp-card.user   { border: 1px solid var(--color-user-border); }
+    .comp-card.ai     { border: 1px solid var(--color-ai-border); }
+    .comp-card.cron   { border: 1px solid var(--color-cron-border); }
+    .comp-card.int    { border: 1px solid var(--color-int-border); }
+    .comp-card.data   { border: 1px solid var(--color-data-border); }
+
+    .comp-card:hover.user  { background: var(--color-user-bg); box-shadow: 0 4px 24px rgba(52,211,153,0.1); }
+    .comp-card:hover.ai    { background: var(--color-ai-bg);   box-shadow: 0 4px 24px rgba(99,102,241,0.1); }
+    .comp-card:hover.cron  { background: var(--color-cron-bg); box-shadow: 0 4px 24px rgba(59,130,246,0.1); }
+    .comp-card:hover.int   { background: var(--color-int-bg);  box-shadow: 0 4px 24px rgba(245,158,11,0.1); }
+    .comp-card:hover.data  { background: var(--color-data-bg); box-shadow: 0 4px 24px rgba(168,85,247,0.1); }
+
+    .comp-card.active.user  { background: var(--color-user-bg); border-color: var(--color-user); }
+    .comp-card.active.ai    { background: var(--color-ai-bg);   border-color: var(--color-ai); }
+    .comp-card.active.cron  { background: var(--color-cron-bg); border-color: var(--color-cron); }
+    .comp-card.active.int   { background: var(--color-int-bg);  border-color: var(--color-int); }
+    .comp-card.active.data  { background: var(--color-data-bg); border-color: var(--color-data); }
+
+    .comp-header {
+      padding: 14px 16px 12px;
+    }
+    .comp-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .comp-icon { font-size: 20px; flex-shrink: 0; }
+    .comp-status {
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .comp-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+    .comp-sub {
+      font-size: 11px;
+      color: #666;
+      margin-top: 2px;
+    }
+    .comp-chevron {
+      position: absolute;
+      bottom: 8px;
+      right: 12px;
+      font-size: 10px;
+      color: #444;
+      transition: transform 0.3s;
+    }
+    .comp-card.active .comp-chevron { transform: rotate(180deg); }
+
+    /* Expanded Panel */
+    .comp-detail {
+      display: none;
+      padding: 0 16px 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .comp-card.active .comp-detail { display: block; }
+    .comp-detail-desc {
+      font-size: 12px;
+      color: #aaa;
+      line-height: 1.6;
+      margin: 12px 0 10px;
+    }
+    .comp-detail-row {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 6px;
+      display: flex;
+      gap: 6px;
+    }
+    .comp-detail-row strong { color: #888; flex-shrink: 0; }
+    .comp-detail-row span { color: #aaa; }
+    .comp-detail-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .comp-detail-link.user   { background: rgba(52,211,153,0.15);  color: var(--color-user); }
+    .comp-detail-link.ai     { background: rgba(99,102,241,0.15);   color: var(--color-ai); }
+    .comp-detail-link.cron   { background: rgba(59,130,246,0.15);   color: var(--color-cron); }
+    .comp-detail-link.int    { background: rgba(245,158,11,0.15);   color: var(--color-int); }
+    .comp-detail-link.data   { background: rgba(168,85,247,0.15);   color: var(--color-data); }
+    .comp-detail-link:hover { opacity: 0.8; }
+
+    /* Flow Connector Between Layers */
+    .flow-connector {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin: 6px 0;
+      position: relative;
+    }
+    .flow-connector-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 10px 16px;
+      background: rgba(255,255,255,0.015);
+      border: 1px dashed rgba(255,255,255,0.08);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .flow-connector-inner:hover {
+      background: rgba(255,255,255,0.03);
+      border-color: rgba(255,255,255,0.15);
+    }
+    .flow-arrow-label {
+      font-size: 11px;
+      color: #555;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+    }
+    .flow-connector-inner:hover .flow-arrow-label { color: #888; }
+    .flow-arrow-label .arrow { color: #444; font-size: 14px; }
+    .flow-connector-inner.expanded { border-style: solid; }
+    .flow-list {
+      display: none;
+      width: 100%;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .flow-list.open { display: block; }
+    .flow-list-item {
+      font-size: 11px;
+      color: #666;
+      padding: 4px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .flow-list-item .fi-arrow { color: #444; flex-shrink: 0; }
+    .flow-list-item span { color: #999; }
+
+    /* Data Flow Diagram */
+    .flow-diagram-section {
+      margin: 48px 0;
+      padding: 40px;
+      background: rgba(255,255,255,0.015);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px;
+    }
+    .flow-diagram-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .flow-diagram-subtitle {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 28px;
+    }
+    .flow-diagram-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .flow-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.2s;
+    }
+    .flow-row:hover { background: rgba(255,255,255,0.04); }
+    .flow-source {
+      font-size: 12px;
+      font-weight: 600;
+      color: #ccc;
+      min-width: 140px;
+      flex-shrink: 0;
+    }
+    .flow-mid-arrow {
+      color: #444;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .flow-dest {
+      font-size: 12px;
+      color: #888;
+      flex: 1;
+    }
+    .flow-badge {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .flow-badge.live { background: rgba(52,211,153,0.15); color: var(--color-user); }
+    .flow-badge.progress { background: rgba(245,158,11,0.15); color: var(--color-int); }
+    .flow-badge.planned { background: rgba(255,255,255,0.06); color: #666; }
+
+    @media (max-width: 768px) {
+      .comp-card { min-width: 100%; max-width: 100%; }
+      .flow-diagram-section { padding: 24px; }
+      .flow-source { min-width: 100px; }
+      .platform-stats { flex-direction: column; }
+      .pstat { border-right: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-brand">
+    <div class="logo-icon">R</div>
+    Rylem<span>Academy</span>
+  </a>
+  <button class="nav-hamburger" id="navHamburger">☰</button>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="sales-overview.html">Sales Training</a>
+    <a href="recruiter-overview.html">Recruiter Training</a>
+    <a href="pipeline.html">Pipeline</a>
+    <a href="architecture.html" class="active">Architecture</a>
+  </div>
+</nav>
+
+<div class="page-body">
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">System Overview</div>
+      <h1>🏗️ <em>Platform Architecture</em></h1>
+      <p>How Rylem's AI-powered staffing platform connects — every tool, dashboard, and automation mapped end-to-end.</p>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- Platform Stats -->
+    <div class="platform-stats">
+      <div class="pstat">
+        <div class="pstat-num">15+</div>
+        <div class="pstat-label">Training Modules</div>
+      </div>
+      <div class="pstat">
+        <div class="pstat-num">38</div>
+        <div class="pstat-label">Active Pipeline Leads</div>
+      </div>
+      <div class="pstat">
+        <div class="pstat-num">43</div>
+        <div class="pstat-label">Active Contractors</div>
+      </div>
+      <div class="pstat">
+        <div class="pstat-num">6</div>
+        <div class="pstat-label">Integrations</div>
+      </div>
+      <div class="pstat">
+        <div class="pstat-num">7</div>
+        <div class="pstat-label">Automated Workflows</div>
+      </div>
+      <div class="pstat">
+        <div class="pstat-num">$529<span style="font-size:16px;">/hr</span></div>
+        <div class="pstat-label">Margin Under Mgmt</div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="arch-legend">
+      <div class="legend-item"><div class="legend-dot user"></div> User-Facing</div>
+      <div class="legend-item"><div class="legend-dot ai"></div> AI & Automation</div>
+      <div class="legend-item"><div class="legend-dot cron"></div> Cron Workflows</div>
+      <div class="legend-item"><div class="legend-dot int"></div> Integrations</div>
+      <div class="legend-item"><div class="legend-dot data"></div> Data Layer</div>
+      <div style="margin-left:auto; display:flex; gap:16px; flex-wrap:wrap;">
+        <div class="legend-item">✅ Live</div>
+        <div class="legend-item">🔧 In Progress</div>
+        <div class="legend-item">📋 Planned</div>
+      </div>
+    </div>
+
+    <!-- ═══ LAYER 1: USER-FACING ═══ -->
+    <div class="arch-section">
+      <div class="layer-header user">
+        <span>🌐</span>
+        Layer 1 — Website &amp; User-Facing
+      </div>
+      <div class="layer-band user">
+        <div class="layer-cards">
+
+          <div class="comp-card user" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">🌍</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">rylem.com</div>
+              <div class="comp-sub">Main Company Website</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Public-facing company website hosted on GitHub Pages. Primary brand presence for prospects, candidates, and partners across all 50 states.</div>
+              <div class="comp-detail-row"><strong>Tech:</strong><span>GitHub Pages · repo: dadesmike-design/rylem-dot-com</span></div>
+              <div class="comp-detail-row"><strong>Produces:</strong><span>Web traffic data → GA4</span></div>
+              <a href="https://rylem.com" target="_blank" class="comp-detail-link user">↗ Visit Site</a>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card user" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">🎓</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">Rylem Academy</div>
+              <div class="comp-sub">Training Portal · 15+ Modules</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Internal training hub with two tracks: Sales (BDM) and Recruiter. Covers objection handling, Boolean search, tech verticals, pricing, and compliance. Includes quizzes, progress tracking, and a boolean search builder.</div>
+              <div class="comp-detail-row"><strong>Modules:</strong><span>15+ across Sales + Recruiter tracks</span></div>
+              <div class="comp-detail-row"><strong>Features:</strong><span>quiz-engine.js · progress-tracker.js · Boolean Search Builder</span></div>
+              <div class="comp-detail-row"><strong>Uses:</strong><span>gamification.json (progress tracking)</span></div>
+              <a href="index.html" class="comp-detail-link user">↗ Open Academy</a>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card user" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">📊</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">Pipeline Dashboard</div>
+              <div class="comp-sub">BDM Daily Command Center</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Real-time BDM pipeline tool showing hot leads, call lists, sequence status, and going-cold alerts. Per-rep views via URL param. Reps log call outcomes directly, which feeds the gamification system.</div>
+              <div class="comp-detail-row"><strong>Reps:</strong><span>?rep=julia · ?rep=mike · ?rep=april</span></div>
+              <div class="comp-detail-row"><strong>Outcomes:</strong><span>Got reply · Booked meeting · Voicemail · No answer</span></div>
+              <div class="comp-detail-row"><strong>Uses:</strong><span>leads.json · pipeline-context.json · gamification.json</span></div>
+              <div class="comp-detail-row"><strong>Produces:</strong><span>Outcome logs → gamification.json</span></div>
+              <a href="pipeline.html" class="comp-detail-link user">↗ Open Dashboard</a>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card user" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">🏆</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">Gamification System</div>
+              <div class="comp-sub">Points, Levels &amp; Badges</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Drives rep engagement through a points-and-levels system with 8 unique badges, weekly leaderboards (all-time and weekly), weekly challenges, and real-time achievement toasts on the dashboard.</div>
+              <div class="comp-detail-row"><strong>Levels:</strong><span>Rookie → Hunter → Closer → Rainmaker</span></div>
+              <div class="comp-detail-row"><strong>Badges:</strong><span>8 achievement badges</span></div>
+              <div class="comp-detail-row"><strong>Uses:</strong><span>gamification.json</span></div>
+              <div class="comp-detail-row"><strong>Script:</strong><span>gamification.js</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow Connector 1→2 -->
+    <div class="flow-connector">
+      <div class="flow-connector-inner" onclick="toggleFlow(this)">
+        <div class="flow-arrow-label"><span class="arrow">⟵</span> Outcome logs → gamification.json → Leaderboard</div>
+        <div class="flow-arrow-label"><span class="arrow">⟶</span> AI answers questions about deals &amp; clients</div>
+        <div class="flow-arrow-label" style="color:#444; font-size:10px; margin-left:auto;">click to expand ▾</div>
+        <div class="flow-list">
+          <div class="flow-list-item"><span class="fi-arrow">→</span><span>Dashboard outcome logs → gamification.json → Leaderboard updates</span></div>
+          <div class="flow-list-item"><span class="fi-arrow">→</span><span>AI Chat Widget answers BDM questions using pipeline-context.json</span></div>
+          <div class="flow-list-item"><span class="fi-arrow">→</span><span>AI Assistant monitors recruiter activity from Academy progress data</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ LAYER 2: AI & AUTOMATION ═══ -->
+    <div class="arch-section">
+      <div class="layer-header ai">
+        <span>🤖</span>
+        Layer 2 — AI &amp; Automation
+      </div>
+      <div class="layer-band ai">
+        <div class="layer-cards">
+
+          <div class="comp-card ai" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">💬</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">AI Chat Widget</div>
+              <div class="comp-sub">Embedded · Cloudflare Edge</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Context-aware chat assistant embedded in Academy and Pipeline Dashboard. Training mode teaches recruiters; Pipeline mode answers deal and client questions. Stateless — no data stored, no training on conversations.</div>
+              <div class="comp-detail-row"><strong>Model:</strong><span>Llama 3.1 70B via Cloudflare Workers AI</span></div>
+              <div class="comp-detail-row"><strong>Endpoint:</strong><span>rylem-ai-chat.rylem-ai.workers.dev</span></div>
+              <div class="comp-detail-row"><strong>Script:</strong><span>chat-widget.js</span></div>
+              <div class="comp-detail-row"><strong>Privacy:</strong><span>Free · Encrypted · No data training</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card ai" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">🧠</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">Rylem AI Assistant</div>
+              <div class="comp-sub">Telegram Bot · @Rylem_ai_bot</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Mike's personal AI business partner running on Telegram. Delivers daily intel briefs, researches leads, drafts cold emails, monitors recruiter performance, and manages pipeline follow-ups — all proactively.</div>
+              <div class="comp-detail-row"><strong>Bot:</strong><span>@Rylem_ai_bot</span></div>
+              <div class="comp-detail-row"><strong>Delivers:</strong><span>Daily intel · Lead research · Cold email drafts · Recruiter alerts</span></div>
+              <div class="comp-detail-row"><strong>Uses:</strong><span>pipeline-context.json · memory-recent.json · web search</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card ai" style="border-style: dashed; opacity: 0.7;" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">🌐</div>
+                <div class="comp-status">📋</div>
+              </div>
+              <div class="comp-name">Website Chatbot</div>
+              <div class="comp-sub">Public-Facing · rylem.com</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Planned public chatbot for rylem.com to capture inbound leads, answer FAQs for clients and candidates, and route hot prospects to BDMs. Will use same Cloudflare Worker infrastructure.</div>
+              <div class="comp-detail-row"><strong>Status:</strong><span>Planned — infrastructure ready, deployment pending</span></div>
+              <div class="comp-detail-row"><strong>Will use:</strong><span>Cloudflare Workers AI · leads.json (lead capture)</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow Connector 2→3 -->
+    <div class="flow-connector">
+      <div class="flow-connector-inner" onclick="toggleFlow(this)">
+        <div class="flow-arrow-label"><span class="arrow">⟶</span> AI Assistant triggers &amp; reads cron outputs</div>
+        <div class="flow-arrow-label"><span class="arrow">⟵</span> Crons push intel → AI Assistant → Telegram → Mike</div>
+        <div class="flow-arrow-label" style="color:#444; font-size:10px; margin-left:auto;">click to expand ▾</div>
+        <div class="flow-list">
+          <div class="flow-list-item"><span class="fi-arrow">→</span><span>Daily Intel Brief cron → structured data → AI Assistant → Telegram message to Mike</span></div>
+          <div class="flow-list-item"><span class="fi-arrow">→</span><span>Pipeline Tracker cron → call activity → AI Assistant surfaces hot follow-ups</span></div>
+          <div class="flow-list-item"><span class="fi-arrow">→</span><span>Recruiter Audit cron → performance scores → AI Assistant flags issues</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ LAYER 3: CRON WORKFLOWS ═══ -->
+    <div class="arch-section">
+      <div class="layer-header cron">
+        <span>⚙️</span>
+        Layer 3 — Automated Workflows (Crons)
+      </div>
+      <div class="layer-band cron">
+        <div class="layer-cards">
+
+          <div class="comp-card cron" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">📞</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">Pipeline Tracker</div>
+              <div class="comp-sub">7:00 AM Daily · Call Log Sync</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Runs every morning at 7 AM. Pulls RingCentral call logs, matches calls to leads in the pipeline, flags unanswered follow-ups, and surfaces going-cold leads for the dashboard.</div>
+              <div class="comp-detail-row"><strong>Schedule:</strong><span>7:00 AM PT daily</span></div>
+              <div class="comp-detail-row"><strong>Sources:</strong><span>RingCentral API</span></div>
+              <div class="comp-detail-row"><strong>Updates:</strong><span>leads.json · dashboard.json</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card cron" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">📰</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">Daily Intel Brief</div>
+              <div class="comp-sub">Market Signals · Competitor Watch</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Automated daily briefing that scans market signals, competitor activity, and contract end dates. Compiles findings and delivers them to Mike via the AI Assistant on Telegram.</div>
+              <div class="comp-detail-row"><strong>Sources:</strong><span>Web search · ZoomInfo · pipeline-context.json</span></div>
+              <div class="comp-detail-row"><strong>Output:</strong><span>Telegram brief → Mike</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card cron" style="border-style: dashed; opacity: 0.8;" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">📧</div>
+                <div class="comp-status">🔧</div>
+              </div>
+              <div class="comp-name">Follow-up Sequences</div>
+              <div class="comp-sub">Day 1 · 4 · 8 · 14 via CEIPAL</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Automated email follow-up sequences triggered when a lead enters the pipeline. Sends personalized touches at Day 1, 4, 8, and 14 via CEIPAL ATS. Currently configuring CEIPAL automation rules.</div>
+              <div class="comp-detail-row"><strong>Cadence:</strong><span>Day 1 · Day 4 · Day 8 · Day 14</span></div>
+              <div class="comp-detail-row"><strong>Via:</strong><span>CEIPAL email automation</span></div>
+              <div class="comp-detail-row"><strong>Status:</strong><span>🔧 CEIPAL sequences being configured</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card cron" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">🤝</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">Diversity Outreach</div>
+              <div class="comp-sub">Batch Email Campaigns</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Automated batch email campaigns to diversity supplier contacts. Leverages Rylem's certified diversity-owned status as a competitive advantage to reach enterprise and government procurement contacts.</div>
+              <div class="comp-detail-row"><strong>Targets:</strong><span>Diversity supplier contacts · Enterprise procurement</span></div>
+              <div class="comp-detail-row"><strong>Advantage:</strong><span>Rylem certified diversity-owned</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card cron" style="border-style: dashed; opacity: 0.8;" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">📋</div>
+                <div class="comp-status">🔧</div>
+              </div>
+              <div class="comp-name">Recruiter Audit</div>
+              <div class="comp-sub">Weekly Performance Scoring</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Weekly automated audit that scores recruiter performance against documented call rubrics. Reviews call volume, conversion rates, and rubric adherence. Flags deviations for manager review.</div>
+              <div class="comp-detail-row"><strong>Schedule:</strong><span>Weekly</span></div>
+              <div class="comp-detail-row"><strong>Sources:</strong><span>RingCentral call logs · call flow rubrics</span></div>
+              <div class="comp-detail-row"><strong>Status:</strong><span>🔧 RingCentral live monitoring in progress</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow Connector 3→4 -->
+    <div class="flow-connector">
+      <div class="flow-connector-inner" onclick="toggleFlow(this)">
+        <div class="flow-arrow-label"><span class="arrow">⟵</span> Crons pull data from integrations</div>
+        <div class="flow-arrow-label"><span class="arrow">⟶</span> Crons push actions back to integrations</div>
+        <div class="flow-arrow-label" style="color:#444; font-size:10px; margin-left:auto;">click to expand ▾</div>
+        <div class="flow-list">
+          <div class="flow-list-item"><span class="fi-arrow">→</span><span>RingCentral → Pipeline Tracker cron pulls call logs each morning</span></div>
+          <div class="flow-list-item"><span class="fi-arrow">→</span><span>CEIPAL → Follow-up Sequences cron triggers automated emails</span></div>
+          <div class="flow-list-item"><span class="fi-arrow">→</span><span>ZoomInfo → Daily Intel Brief cron enriches lead data</span></div>
+          <div class="flow-list-item"><span class="fi-arrow">→</span><span>RingCentral → Recruiter Audit cron pulls call recordings for scoring</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ LAYER 4: INTEGRATIONS ═══ -->
+    <div class="arch-section">
+      <div class="layer-header int">
+        <span>🔌</span>
+        Layer 4 — Integrations
+      </div>
+      <div class="layer-band int">
+        <div class="layer-cards">
+
+          <div class="comp-card int" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">🗂️</div>
+                <div class="comp-status">🔧</div>
+              </div>
+              <div class="comp-name">CEIPAL ATS</div>
+              <div class="comp-sub">300K+ Candidates · API</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Core ATS managing candidate database (300K+), job orders, placements, and email sequences. Has full API access. Currently configuring automated follow-up sequences and deeper pipeline sync.</div>
+              <div class="comp-detail-row"><strong>Data:</strong><span>Candidates · Job orders · Placements · Email sequences</span></div>
+              <div class="comp-detail-row"><strong>API:</strong><span>Full API access enabled</span></div>
+              <div class="comp-detail-row"><strong>Feeds:</strong><span>Pipeline Dashboard · Follow-up Sequences cron</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card int" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">📱</div>
+                <div class="comp-status">🔧</div>
+              </div>
+              <div class="comp-name">RingCentral</div>
+              <div class="comp-sub">Call Recordings · Activity Logs</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Records every call made by every rep. Call logs feed the Pipeline Tracker cron each morning. Live monitoring and real-time transcript analysis for recruiter coaching is in progress.</div>
+              <div class="comp-detail-row"><strong>Data:</strong><span>Call recordings · Call logs · Activity per rep</span></div>
+              <div class="comp-detail-row"><strong>Feeds:</strong><span>Pipeline Tracker cron · Recruiter Audit cron</span></div>
+              <div class="comp-detail-row"><strong>Status:</strong><span>🔧 Live monitoring in progress</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card int" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">🔍</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">ZoomInfo</div>
+              <div class="comp-sub">Lead Intel · API (Pro)</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Professional plan with full API access for lead intelligence, contact data, and company insights. Used by AI Assistant for lead research and by the Daily Intel Brief cron.</div>
+              <div class="comp-detail-row"><strong>Data:</strong><span>Lead intel · Contact data · Company insights</span></div>
+              <div class="comp-detail-row"><strong>API:</strong><span>Professional plan with API</span></div>
+              <div class="comp-detail-row"><strong>Feeds:</strong><span>leads.json · Daily Intel Brief</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card int" style="border-style: dashed; opacity: 0.8;" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">📬</div>
+                <div class="comp-status">🔧</div>
+              </div>
+              <div class="comp-name">Microsoft 365</div>
+              <div class="comp-sub">Email · Calendar · Teams</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Email tracking, calendar integration, and Teams meeting attendance monitoring. Will enable automated follow-up triggers based on email opens and meeting attendance. Integration setup in progress.</div>
+              <div class="comp-detail-row"><strong>Data:</strong><span>Email tracking · Calendar · Teams attendance</span></div>
+              <div class="comp-detail-row"><strong>Status:</strong><span>🔧 Setup in progress</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card int" style="border-style: dashed; opacity: 0.7;" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">💰</div>
+                <div class="comp-status">📋</div>
+              </div>
+              <div class="comp-name">QuickBooks</div>
+              <div class="comp-sub">Revenue · Margins · P&amp;L</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Full QuickBooks Online API access available. Planned integration will power a financial dashboard for natural-language Q&amp;A on revenue, margins, P&amp;L, and invoicing status.</div>
+              <div class="comp-detail-row"><strong>Data:</strong><span>Revenue · Margins · P&L · Invoicing</span></div>
+              <div class="comp-detail-row"><strong>API:</strong><span>Full API access (ready to connect)</span></div>
+              <div class="comp-detail-row"><strong>Status:</strong><span>📋 Financial dashboard planned</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card int" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">📈</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">Google Analytics 4</div>
+              <div class="comp-sub">Website Traffic · Conversions</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Tracks all website traffic, user behavior, and conversion events across rylem.com and the Academy. Provides the data foundation for understanding what content drives inbound leads.</div>
+              <div class="comp-detail-row"><strong>Property:</strong><span>G-JXEZQFCJ5W</span></div>
+              <div class="comp-detail-row"><strong>Tracks:</strong><span>rylem.com · Academy · conversion events</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card int" style="border-style: dashed; opacity: 0.7;" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">💼</div>
+                <div class="comp-status">📋</div>
+              </div>
+              <div class="comp-name">LinkedIn</div>
+              <div class="comp-sub">Sales Lead Research</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Currently used manually for sales lead research (read-only, 15 profiles/day max). Planned automation will systematically identify and export hiring managers and procurement contacts to the pipeline.</div>
+              <div class="comp-detail-row"><strong>Current:</strong><span>Manual — Philippines team, 15 profiles/day</span></div>
+              <div class="comp-detail-row"><strong>Followers:</strong><span>150K company followers</span></div>
+              <div class="comp-detail-row"><strong>Status:</strong><span>📋 Automation planned</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow Connector 4→5 -->
+    <div class="flow-connector">
+      <div class="flow-connector-inner" onclick="toggleFlow(this)">
+        <div class="flow-arrow-label"><span class="arrow">⟶</span> All integrations write to data layer JSON files</div>
+        <div class="flow-arrow-label"><span class="arrow">⟵</span> Dashboards read from data layer</div>
+        <div class="flow-arrow-label" style="color:#444; font-size:10px; margin-left:auto;">click to expand ▾</div>
+        <div class="flow-list">
+          <div class="flow-list-item"><span class="fi-arrow">→</span><span>CEIPAL → job orders + placements → pipeline-context.json</span></div>
+          <div class="flow-list-item"><span class="fi-arrow">→</span><span>RingCentral → call activity → leads.json (call timestamps, outcomes)</span></div>
+          <div class="flow-list-item"><span class="fi-arrow">→</span><span>ZoomInfo → lead data → leads.json (enriched contact info)</span></div>
+          <div class="flow-list-item"><span class="fi-arrow">→</span><span>Dashboard outcome logs → gamification.json → points + badges</span></div>
+          <div class="flow-list-item"><span class="fi-arrow">→</span><span>AI Assistant activity → memory-recent.json (activity feed)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ LAYER 5: DATA LAYER ═══ -->
+    <div class="arch-section">
+      <div class="layer-header data">
+        <span>🗄️</span>
+        Layer 5 — Data Layer
+      </div>
+      <div class="layer-band data">
+        <div class="layer-cards">
+
+          <div class="comp-card data" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">🎯</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">leads.json</div>
+              <div class="comp-sub">38 leads · Pipeline kanban</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Single source of truth for the BDM pipeline. Stores all leads across kanban stages with company info, contact, value, signals, and tags. Read by Pipeline Dashboard; written by crons and AI research.</div>
+              <div class="comp-detail-row"><strong>Records:</strong><span>38 active leads across all stages</span></div>
+              <div class="comp-detail-row"><strong>Stages:</strong><span>New Leads · Contacted · Meeting Booked · Proposal Sent · Won · Lost</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card data" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">🏆</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">gamification.json</div>
+              <div class="comp-sub">Points · Levels · Badges · Streaks</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Stores all gamification state per rep: total points, current level, badges earned, streak data, and weekly challenge progress. Updated in real-time when reps log outcomes on the Pipeline Dashboard.</div>
+              <div class="comp-detail-row"><strong>Per rep:</strong><span>Points · Level · Badges · Streaks · Weekly rank</span></div>
+              <div class="comp-detail-row"><strong>Written by:</strong><span>Pipeline Dashboard (outcome logging)</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card data" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">💼</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">pipeline-context.json</div>
+              <div class="comp-sub">Financials · Clients · Contractors</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Rich context file used by the AI Chat Widget in pipeline mode. Contains financial data, active clients, contractor details, and recruiter performance metrics so the AI can answer specific business questions.</div>
+              <div class="comp-detail-row"><strong>Contains:</strong><span>Financials · Active clients · 43 contractors · Recruiter KPIs</span></div>
+              <div class="comp-detail-row"><strong>Used by:</strong><span>AI Chat Widget (pipeline mode)</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card data" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">📊</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">dashboard.json</div>
+              <div class="comp-sub">Overview stats · Briefing text</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Powers the overview stats and briefing text shown at the top of the Pipeline Dashboard. Updated by the Pipeline Tracker cron each morning with fresh metrics and status summaries.</div>
+              <div class="comp-detail-row"><strong>Contains:</strong><span>Overview stats · Daily briefing · Quick actions</span></div>
+              <div class="comp-detail-row"><strong>Written by:</strong><span>Pipeline Tracker cron (7 AM daily)</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card data" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">✅</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">tasks.json</div>
+              <div class="comp-sub">Task Tracking</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Tracks action items and tasks generated by the AI Assistant and Pipeline Dashboard. Provides persistent task management across sessions.</div>
+              <div class="comp-detail-row"><strong>Contains:</strong><span>Open tasks · Completed items · Priority flags</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card data" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">🔒</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">security.json</div>
+              <div class="comp-sub">Machine Health</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Monitors the health and security status of the Mac Mini that powers the platform. Tracks OS updates, firewall status, and system health metrics.</div>
+              <div class="comp-detail-row"><strong>Contains:</strong><span>System health · Security posture · Update status</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+          <div class="comp-card data" onclick="toggleCard(this)">
+            <div class="comp-header">
+              <div class="comp-top">
+                <div class="comp-icon">📡</div>
+                <div class="comp-status">✅</div>
+              </div>
+              <div class="comp-name">memory-recent.json</div>
+              <div class="comp-sub">Activity Feed</div>
+            </div>
+            <div class="comp-detail">
+              <div class="comp-detail-desc">Rolling activity feed of recent AI Assistant actions, lead research results, and pipeline events. Gives the assistant and dashboard a live window into what's been happening across the platform.</div>
+              <div class="comp-detail-row"><strong>Contains:</strong><span>Recent AI actions · Lead research · Pipeline events</span></div>
+              <div class="comp-detail-row"><strong>Written by:</strong><span>AI Assistant during each session</span></div>
+            </div>
+            <div class="comp-chevron">▼</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ DATA FLOW DIAGRAM ═══ -->
+    <div class="flow-diagram-section">
+      <div class="flow-diagram-title">Data Flow Map</div>
+      <div class="flow-diagram-subtitle">How information moves through the platform</div>
+      <div class="flow-diagram-grid">
+
+        <div class="flow-row">
+          <div class="flow-source">CEIPAL</div>
+          <div class="flow-mid-arrow">→</div>
+          <div class="flow-dest">Pipeline Dashboard — job orders, placements, candidate data</div>
+          <div class="flow-badge progress">🔧 In Progress</div>
+        </div>
+
+        <div class="flow-row">
+          <div class="flow-source">RingCentral</div>
+          <div class="flow-mid-arrow">→</div>
+          <div class="flow-dest">Pipeline Tracker Cron → leads.json → Pipeline Dashboard (call activity)</div>
+          <div class="flow-badge live">✅ Live</div>
+        </div>
+
+        <div class="flow-row">
+          <div class="flow-source">ZoomInfo</div>
+          <div class="flow-mid-arrow">→</div>
+          <div class="flow-dest">Lead Research → leads.json → Pipeline Dashboard (enriched contacts)</div>
+          <div class="flow-badge live">✅ Live</div>
+        </div>
+
+        <div class="flow-row">
+          <div class="flow-source">Outcome Logging</div>
+          <div class="flow-mid-arrow">→</div>
+          <div class="flow-dest">gamification.json → Leaderboard + Achievement Toasts</div>
+          <div class="flow-badge live">✅ Live</div>
+        </div>
+
+        <div class="flow-row">
+          <div class="flow-source">Google Analytics 4</div>
+          <div class="flow-mid-arrow">→</div>
+          <div class="flow-dest">Website traffic & conversion tracking on rylem.com + Academy</div>
+          <div class="flow-badge live">✅ Live</div>
+        </div>
+
+        <div class="flow-row">
+          <div class="flow-source">AI Assistant</div>
+          <div class="flow-mid-arrow">→</div>
+          <div class="flow-dest">Daily Intel Brief → Telegram → Mike (market signals, alerts)</div>
+          <div class="flow-badge live">✅ Live</div>
+        </div>
+
+        <div class="flow-row">
+          <div class="flow-source">AI Chat Widget</div>
+          <div class="flow-mid-arrow">→</div>
+          <div class="flow-dest">Cloudflare Worker → Llama 3.1 70B → Response (stateless, encrypted)</div>
+          <div class="flow-badge live">✅ Live</div>
+        </div>
+
+        <div class="flow-row">
+          <div class="flow-source">CEIPAL</div>
+          <div class="flow-mid-arrow">→</div>
+          <div class="flow-dest">Follow-up Sequences cron → Day 1/4/8/14 automated emails</div>
+          <div class="flow-badge progress">🔧 In Progress</div>
+        </div>
+
+        <div class="flow-row">
+          <div class="flow-source">QuickBooks</div>
+          <div class="flow-mid-arrow">→</div>
+          <div class="flow-dest">Financial Dashboard → Revenue / Margins / P&L Q&A</div>
+          <div class="flow-badge planned">📋 Planned</div>
+        </div>
+
+        <div class="flow-row">
+          <div class="flow-source">LinkedIn</div>
+          <div class="flow-mid-arrow">→</div>
+          <div class="flow-dest">Automated lead export → leads.json → Pipeline Dashboard</div>
+          <div class="flow-badge planned">📋 Planned</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="site-footer">
+      <div style="font-size:11px; color:#333; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Rylem Platform</div>
+      <div style="color:#555;">Internal documentation · Confidential · Not for external distribution</div>
+    </div>
+
+  </div><!-- /container -->
+</div><!-- /page-body -->
+
+<script>
+  // Nav hamburger
+  const hamburger = document.getElementById('navHamburger');
+  const navLinks = document.getElementById('navLinks');
+  if (hamburger) {
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  }
+
+  // Toggle component card expansion
+  function toggleCard(card) {
+    const isActive = card.classList.contains('active');
+    // Close all cards in the same layer
+    const layer = card.closest('.layer-band');
+    if (layer) {
+      layer.querySelectorAll('.comp-card.active').forEach(c => c.classList.remove('active'));
+    }
+    // Toggle this card
+    if (!isActive) card.classList.add('active');
+  }
+
+  // Toggle flow connector expansion
+  function toggleFlow(el) {
+    const list = el.querySelector('.flow-list');
+    if (!list) return;
+    const isOpen = list.classList.contains('open');
+    list.classList.toggle('open', !isOpen);
+    el.classList.toggle('expanded', !isOpen);
+    // Update hint text
+    const hint = el.querySelector('.flow-arrow-label:last-child');
+    if (hint) hint.textContent = isOpen ? 'click to expand ▾' : 'click to collapse ▴';
+  }
+</script>
+<script src="chat-widget.js"></script>
+</body>
+</html>

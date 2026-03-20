@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="auth.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Sourcing Techniques — Rylem Academy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-brand"><div class="logo-icon">R</div> Rylem<span>Academy</span></a>
+  <button class="nav-hamburger" id="navHamburger">☰</button>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="sales-overview.html">Sales Training</a>
+    <a href="recruiter-overview.html" class="active">Recruiter Training</a>
+    <a href="pipeline.html">Pipeline</a>
+    <a href="architecture.html">Architecture</a>
+  </div>
+</nav>
+
+<div class="page-body">
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">Recruiter Training • Advanced Sourcing</div>
+      <h1>🔬 Advanced <em>Sourcing</em> Techniques</h1>
+      <p>Master X-ray search, flip search, LinkedIn bypass, and TLD targeting. Based on SearchLab methodology — the same techniques used by elite sourcers worldwide.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">7</div><div class="label">Techniques</div></div>
+        <div class="hero-stat"><div class="num">~25 min</div><div class="label">Read Time</div></div>
+        <div class="hero-stat"><div class="num">SearchLab</div><div class="label">Methodology</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="sub-nav">
+        <a href="recruiter-overview.html">Overview</a>
+        <a href="recruiter-foundation.html">Foundation</a>
+        <a href="recruiter-execution.html">Execution</a>
+        <a href="recruiter-acceleration.html">Acceleration</a>
+        <a href="recruiter-lead-gen.html">Lead Gen</a>
+        <a href="recruiter-negotiation.html">Negotiation</a>
+        <a href="recruiter-objections.html">Objections</a>
+        <a href="recruiter-compliance.html">Compliance</a>
+        <a href="recruiter-tech-overview.html">Tech Overview</a>
+        <a href="recruiter-advanced-sourcing.html" class="active">Advanced Sourcing</a>
+      </div>
+
+      <!-- In-page module nav -->
+      <div class="sub-nav" style="border-top:1px solid var(--border);padding-top:16px">
+        <a href="#flip-search">Flip Search</a>
+        <a href="#xray">X-Ray</a>
+        <a href="#tld">TLD Sourcing</a>
+        <a href="#linkedin-xray">LinkedIn X-Ray</a>
+        <a href="#competitors">Competitors</a>
+        <a href="#social">Social Media</a>
+        <a href="#diversity">Diversity Edge</a>
+        <a href="#exercises">Exercises</a>
+      </div>
+
+      <!-- Intro callout -->
+      <div class="tip-box" style="margin-top:24px">
+        <div class="tip-label">🎯 Why This Module Exists</div>
+        <p>Boolean search basics get you to "good." These techniques get you to <strong>elite</strong>. Every technique here unlocks candidates your competitors can't find — especially using standard LinkedIn Recruiter. This is Rylem's sourcing edge.</p>
+      </div>
+
+      <!-- MODULE 1: FLIP SEARCH -->
+      <div id="flip-search" style="padding-top:20px"></div>
+      <div class="section-label">Technique 1</div>
+      <h2 class="section-heading" style="border:none;margin-top:0"><span>🔗</span> Flip Search / Link Search</h2>
+      <p class="text-sm text-muted mb-16">Use Google's <code style="background:var(--accent-bg);padding:2px 6px;border-radius:4px;font-size:12px">link:</code> operator to find people whose web pages link to certification or professional organizations. If someone links to PMI's website, there's a good chance they have a PMP.</p>
+
+      <div class="card">
+        <div class="card-title"><span class="card-icon">💡</span> How It Works</div>
+        <p class="text-sm text-muted mb-12">Think of it like a reverse lookup. Instead of searching for "PMP" in a resume, you find anyone whose page points to the PMP certification body. Google's <code style="background:var(--accent-bg);padding:2px 6px;border-radius:4px;font-size:12px">link:</code> operator surfaces pages that hyperlink to the domain you specify.</p>
+        <ul class="content-list">
+          <li><code style="background:var(--accent-bg);padding:2px 6px;border-radius:4px">link:pmi.org</code> — finds pages that link to the Project Management Institute</li>
+          <li><code style="background:var(--accent-bg);padding:2px 6px;border-radius:4px">link:shrm.org</code> — finds pages that link to SHRM (great for HR professionals)</li>
+          <li><code style="background:var(--accent-bg);padding:2px 6px;border-radius:4px">link:cpa.org</code> — finds pages that link to CPA certification bodies</li>
+          <li>Works with ANY professional organization's domain — use whatever cert matches your role</li>
+        </ul>
+      </div>
+
+      <div class="card mt-16">
+        <div class="card-title"><span class="card-icon">🔍</span> Power Combos: Link + Resume Search</div>
+        <p class="text-sm text-muted mb-12">Combine flip search with resume keywords to filter down to actual candidates.</p>
+        <div class="cheat-grid">
+          <div class="cheat-card">
+            <h4>PMP / Project Managers</h4>
+            <ul>
+              <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">link:pmi.org resume OR CV OR vitae</code></li>
+              <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">link:pmi.org "project manager" resume</code></li>
+            </ul>
+          </div>
+          <div class="cheat-card">
+            <h4>HR Professionals</h4>
+            <ul>
+              <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">link:shrm.org resume OR CV "HR manager"</code></li>
+              <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">link:shrm.org "SPHR" OR "PHR" resume</code></li>
+            </ul>
+          </div>
+          <div class="cheat-card">
+            <h4>Finance / Accounting</h4>
+            <ul>
+              <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">link:aicpa.org resume OR CV "CPA"</code></li>
+              <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">link:cfainstitute.org resume "CFA"</code></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-16" style="border-left:4px solid var(--red)">
+        <div class="card-title"><span class="card-icon">🚨</span> Common Mistakes That Break This Search</div>
+        <ul class="content-list">
+          <li><strong style="color:var(--red)">❌ Wrong:</strong> <code style="background:var(--accent-bg);padding:2px 6px;border-radius:4px">link:PMP</code> — PMP is not a domain. Must use the actual certification body domain like <code style="background:var(--accent-bg);padding:2px 6px;border-radius:4px">pmi.org</code></li>
+          <li><strong style="color:var(--red)">❌ Wrong:</strong> <code style="background:var(--accent-bg);padding:2px 6px;border-radius:4px">link: pmi.org</code> — Space after the colon kills the search entirely. No space, ever.</li>
+          <li><strong style="color:var(--green)">✅ Right:</strong> <code style="background:var(--accent-bg);padding:2px 6px;border-radius:4px">link:pmi.org</code> — No space, full domain, no http/www needed</li>
+        </ul>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- MODULE 2: X-RAY -->
+      <div id="xray" style="padding-top:20px"></div>
+      <div class="section-label">Technique 2 — THE BIG ONE</div>
+      <h2 class="section-heading" style="border:none;margin-top:0"><span>🔭</span> X-Ray Technique</h2>
+      <p class="text-sm text-muted mb-16">Think of an X-ray at the doctor — it shows you the "bones" of a body that you can't see with the naked eye. The X-ray technique does the same to any website: it reveals every internal page Google has indexed, including pages the site owner may not even realize are public.</p>
+
+      <div class="card">
+        <div class="card-title"><span class="card-icon">⚙️</span> The Operator: <code style="background:var(--accent-bg);padding:2px 8px;border-radius:4px">site:</code></div>
+        <p class="text-sm text-muted mb-12">The <code style="background:var(--accent-bg);padding:2px 6px;border-radius:4px;font-size:12px">site:</code> operator restricts Google results to a specific website, subdomain, or top-level domain. It works at three levels:</p>
+        <div class="cheat-grid">
+          <div class="cheat-card">
+            <h4>Full Domain</h4>
+            <ul>
+              <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:microsoft.com</code></li>
+              <li>Returns all indexed pages from microsoft.com and all its subdomains</li>
+            </ul>
+          </div>
+          <div class="cheat-card">
+            <h4>Specific Subdomain</h4>
+            <ul>
+              <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:msdn.microsoft.com</code></li>
+              <li>Returns only pages from the MSDN subdomain — much more targeted</li>
+            </ul>
+          </div>
+          <div class="cheat-card">
+            <h4>Top-Level Domain (TLD)</h4>
+            <ul>
+              <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:.tech</code></li>
+              <li>Returns ALL pages from any .tech domain — cast a wide net across an entire TLD</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-16">
+        <div class="card-title"><span class="card-icon">🧪</span> X-Ray in Action</div>
+        <p class="text-sm text-muted mb-12">Here's a complete X-ray search targeting developer resumes on .tech domains:</p>
+        <div class="info-box" style="background:var(--accent-bg);border:1px solid var(--border);border-radius:8px;padding:16px 20px;font-family:monospace;font-size:14px;color:var(--text-white)">
+          site:.tech resume OR CV OR vitae "back end engineer" OR developer OR programmer
+        </div>
+        <p class="text-sm text-muted" style="margin-top:12px">This finds resumes and CVs on .tech personal sites from people who describe themselves as back end engineers, developers, or programmers.</p>
+      </div>
+
+      <div class="tip-box mt-16">
+        <div class="tip-label">🔑 Why This Is Powerful</div>
+        <p>Many professionals build personal websites or portfolios with their resume posted. These pages are indexed by Google but buried in standard searches. X-ray surfaces them instantly. You're finding candidates who have <strong>publicly posted their experience</strong> but aren't actively applying or visible on job boards.</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- MODULE 3: TLD SOURCING -->
+      <div id="tld" style="padding-top:20px"></div>
+      <div class="section-label">Technique 3</div>
+      <h2 class="section-heading" style="border:none;margin-top:0"><span>🌐</span> Top Level Domain (TLD) Sourcing</h2>
+      <p class="text-sm text-muted mb-16">Every web address ends in a TLD — .com, .edu, .gov, etc. Understanding how to X-ray by TLD lets you target entire categories of the internet at once.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div style="width:48px;height:48px;border-radius:12px;background:var(--accent-bg);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">🇺🇸</div>
+          <h3 style="font-size:16px;font-weight:600;color:var(--text-white);margin-bottom:10px">US Standard TLDs</h3>
+          <ul class="content-list">
+            <li><strong>.com</strong> — Commercial (default US)</li>
+            <li><strong>.edu</strong> — Universities & colleges</li>
+            <li><strong>.gov</strong> — Government agencies</li>
+            <li><strong>.mil</strong> — Military</li>
+            <li><strong>.org</strong> — Organizations & nonprofits</li>
+          </ul>
+          <div class="tip-box mt-12">
+            <div class="tip-label">Tip</div>
+            <p>.edu X-rays find student/faculty pages with research backgrounds. .gov and .mil are gold for cleared candidates and public sector specialists.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div style="width:48px;height:48px;border-radius:12px;background:rgba(59,130,246,0.15);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">🌍</div>
+          <h3 style="font-size:16px;font-weight:600;color:var(--text-white);margin-bottom:10px">Country Code TLDs</h3>
+          <ul class="content-list">
+            <li><strong>.ca</strong> — Canada</li>
+            <li><strong>.uk</strong> — United Kingdom</li>
+            <li><strong>.de</strong> — Germany</li>
+            <li><strong>.au</strong> — Australia</li>
+            <li><strong>.in</strong> — India</li>
+          </ul>
+          <div class="tip-box mt-12">
+            <div class="tip-label">Tip</div>
+            <p>Use country TLDs when hiring internationally or for remote roles. X-raying <code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:11px">site:.ca</code> surfaces Canadian talent that won't appear in standard US-centric searches.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div style="width:48px;height:48px;border-radius:12px;background:rgba(99,102,241,0.15);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">⚡</div>
+          <h3 style="font-size:16px;font-weight:600;color:var(--text-white);margin-bottom:10px">Generic / Specialty TLDs</h3>
+          <ul class="content-list">
+            <li><strong>.tech</strong> — Tech professionals & portfolios</li>
+            <li><strong>.dev</strong> — Developers (Google-managed)</li>
+            <li><strong>.io</strong> — Startups & tech companies</li>
+            <li><strong>.design</strong> — Designers & creatives</li>
+            <li><strong>.ai</strong> — AI/ML focused companies</li>
+          </ul>
+          <div class="tip-box mt-12">
+            <div class="tip-label">Best For Tech Roles</div>
+            <p>Tech professionals love <strong>.tech</strong>, <strong>.dev</strong>, and <strong>.io</strong> domains for personal sites. These TLDs are goldmines for software engineers and developers.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip-box mt-16">
+        <div class="tip-label">📋 Full TLD Reference List</div>
+        <p>IANA (the body that governs domain names) maintains a complete list of all valid TLDs: <strong>data.iana.org/TLD/tlds-alpha-by-domain.txt</strong> — bookmark this. When you're recruiting in a new country or niche, look up the right TLD and X-ray it.</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- MODULE 4: LINKEDIN X-RAY -->
+      <div id="linkedin-xray" style="padding-top:20px"></div>
+      <div class="section-label">Technique 4 — Must Know</div>
+      <h2 class="section-heading" style="border:none;margin-top:0"><span>💼</span> LinkedIn X-Ray — Why This Beats LinkedIn Recruiter</h2>
+      <p class="text-sm text-muted mb-16">This is the most important technique in this entire module. Every LinkedIn profile lives at <code style="background:var(--accent-bg);padding:2px 6px;border-radius:4px;font-size:12px">linkedin.com/in/username</code> — which means Google has indexed them, and you can search them directly without paying for LinkedIn Recruiter.</p>
+
+      <div class="card" style="border-left:4px solid var(--green)">
+        <div class="card-title"><span class="card-icon">🏆</span> Why Google X-Ray Is BETTER Than LinkedIn Recruiter</div>
+        <div class="diff-grid" style="grid-template-columns:1fr 1fr;margin-top:16px">
+          <div class="diff-item" style="border-left:3px solid var(--red)">
+            <div class="diff-metric" style="font-size:14px;color:var(--red)">LinkedIn Recruiter</div>
+            <ul style="margin-top:8px;padding-left:16px;font-size:13px;color:var(--text-muted)">
+              <li>Algorithm prioritizes YOUR network first (connected, same school, same company)</li>
+              <li>Creates hidden diversity blind spots based on who you already know</li>
+              <li>Search quality has declined since Microsoft acquisition</li>
+              <li>Expensive — you're renting access to biased results</li>
+            </ul>
+          </div>
+          <div class="diff-item" style="border-left:3px solid var(--green)">
+            <div class="diff-metric" style="font-size:14px;color:var(--green)">Google X-Ray</div>
+            <ul style="margin-top:8px;padding-left:16px;font-size:13px;color:var(--text-muted)">
+              <li>Completely ignores LinkedIn's network algorithm</li>
+              <li>Returns results based purely on profile content match</li>
+              <li>No diversity blind spots — casts a genuinely unbiased net</li>
+              <li>Free — uses Google's search, which you already have</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-16">
+        <div class="card-title"><span class="card-icon">⚙️</span> The LinkedIn X-Ray Formula</div>
+        <div class="info-box" style="background:var(--accent-bg);border:1px solid var(--border);border-radius:8px;padding:16px 20px;font-family:monospace;font-size:14px;color:var(--text-white);margin-bottom:16px">
+          site:linkedin.com/in "[job title]" "[key skill]" "[location]"
+        </div>
+        <ul class="content-list">
+          <li>All LinkedIn profile URLs follow: <strong>linkedin.com/in/username</strong> — that's why <code style="background:var(--accent-bg);padding:2px 6px;border-radius:4px;font-size:12px">site:linkedin.com/in</code> targets profiles only</li>
+          <li>Use LinkedIn's own location phrasing (e.g., <strong>"San Antonio, Texas Metropolitan Area"</strong> not just "San Antonio")</li>
+          <li>You can search for ANYTHING that appears on a profile: schools, certifications, skills, past companies, volunteer work, even keywords from their About section</li>
+        </ul>
+      </div>
+
+      <div class="card mt-16">
+        <div class="card-title"><span class="card-icon">🌍</span> Geographic Targeting</div>
+        <div class="cheat-grid">
+          <div class="cheat-card">
+            <h4>🇺🇸 US Profiles Only</h4>
+            <ul>
+              <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:www.linkedin.com/in</code></li>
+              <li>The <strong>www</strong> prefix knocks out all international subdomains (ca.linkedin.com, uk.linkedin.com, etc.)</li>
+              <li>Use this when you need domestic candidates only</li>
+            </ul>
+          </div>
+          <div class="cheat-card">
+            <h4>🌐 International Targeting</h4>
+            <ul>
+              <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:ca.linkedin.com/in</code> — Canada</li>
+              <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:uk.linkedin.com/in</code> — UK</li>
+              <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:au.linkedin.com/in</code> — Australia</li>
+              <li>Use the country subdomain to target exactly where you need</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-16">
+        <div class="card-title"><span class="card-icon">📋</span> Real Search Examples</div>
+        <div class="cheat-grid">
+          <div class="cheat-card">
+            <h4>Finance Specialist with Fraud Cert</h4>
+            <div style="background:var(--bg-card);padding:10px 14px;border-radius:6px;font-family:monospace;font-size:12px;color:var(--text-white);margin-top:8px;line-height:1.6">
+              site:linkedin.com/in "CPA" OR "accountant" "CFE" OR "fraud" "Notre Dame" OR "Iowa State"
+            </div>
+          </div>
+          <div class="cheat-card">
+            <h4>Senior Software Engineer (US Only)</h4>
+            <div style="background:var(--bg-card);padding:10px 14px;border-radius:6px;font-family:monospace;font-size:12px;color:var(--text-white);margin-top:8px;line-height:1.6">
+              site:www.linkedin.com/in "senior software engineer" "Python" OR "Go" "AWS" "Seattle"
+            </div>
+          </div>
+          <div class="cheat-card">
+            <h4>HR Manager with SHRM Cert</h4>
+            <div style="background:var(--bg-card);padding:10px 14px;border-radius:6px;font-family:monospace;font-size:12px;color:var(--text-white);margin-top:8px;line-height:1.6">
+              site:www.linkedin.com/in "HR manager" OR "human resources" "SPHR" OR "PHR" "Chicago"
+            </div>
+          </div>
+          <div class="cheat-card">
+            <h4>Project Manager (Canadian, PMP)</h4>
+            <div style="background:var(--bg-card);padding:10px 14px;border-radius:6px;font-family:monospace;font-size:12px;color:var(--text-white);margin-top:8px;line-height:1.6">
+              site:ca.linkedin.com/in "project manager" "PMP" "Agile" OR "Scrum" "Toronto"
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- MODULE 5: COMPETITORS & ORGS -->
+      <div id="competitors" style="padding-top:20px"></div>
+      <div class="section-label">Technique 5</div>
+      <h2 class="section-heading" style="border:none;margin-top:0"><span>🏢</span> X-Ray Competitors & Organizations</h2>
+      <p class="text-sm text-muted mb-16">Don't just X-ray job boards and LinkedIn. Go straight to the source — competitor websites, universities, and professional organizations often have employee and member directories indexed by Google.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div style="width:48px;height:48px;border-radius:12px;background:rgba(239,68,68,0.15);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">🎯</div>
+          <h3 style="font-size:16px;font-weight:600;color:var(--text-white);margin-bottom:10px">X-Ray Competitors</h3>
+          <p class="text-sm text-muted mb-12">Find employees at companies your client wants to poach from — or find talent working for competitors that have similar role requirements.</p>
+          <div style="background:var(--bg-card);padding:10px 14px;border-radius:6px;font-family:monospace;font-size:12px;color:var(--text-white);line-height:1.6">
+            site:competitor.com "software engineer"<br>
+            site:amazon.com "senior product manager"<br>
+            site:oracle.com "database administrator"
+          </div>
+        </div>
+        <div class="card">
+          <div style="width:48px;height:48px;border-radius:12px;background:rgba(16,185,129,0.15);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">🎓</div>
+          <h3 style="font-size:16px;font-weight:600;color:var(--text-white);margin-bottom:10px">X-Ray Universities</h3>
+          <p class="text-sm text-muted mb-12">Student and faculty pages are often publicly indexed. Great for finding recent grads or academic researchers entering industry.</p>
+          <div style="background:var(--bg-card);padding:10px 14px;border-radius:6px;font-family:monospace;font-size:12px;color:var(--text-white);line-height:1.6">
+            site:stanford.edu resume "computer science"<br>
+            site:mit.edu CV "machine learning"<br>
+            site:.edu resume "MBA" "finance"
+          </div>
+        </div>
+        <div class="card">
+          <div style="width:48px;height:48px;border-radius:12px;background:rgba(251,191,36,0.15);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">📋</div>
+          <h3 style="font-size:16px;font-weight:600;color:var(--text-white);margin-bottom:10px">X-Ray Professional Orgs</h3>
+          <p class="text-sm text-muted mb-12">Many professional organizations publish member directories or speaker bios that are publicly indexed. Pure gold for niche or certified talent.</p>
+          <div style="background:var(--bg-card);padding:10px 14px;border-radius:6px;font-family:monospace;font-size:12px;color:var(--text-white);line-height:1.6">
+            site:shrm.org "speaker" "CHRO"<br>
+            site:pmi.org "member" resume<br>
+            site:acfe.com "CFE" "fraud examiner"
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- MODULE 6: SOCIAL MEDIA X-RAY -->
+      <div id="social" style="padding-top:20px"></div>
+      <div class="section-label">Technique 6</div>
+      <h2 class="section-heading" style="border:none;margin-top:0"><span>📱</span> Social Media X-Ray</h2>
+      <p class="text-sm text-muted mb-16">Google indexes public social media profiles. The trick: keep these searches simple. Social profiles contain minimal info — city, state, job title. Don't over-engineer these searches.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div style="width:48px;height:48px;border-radius:12px;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">🎵</div>
+          <h3 style="font-size:16px;font-weight:600;color:var(--text-white);margin-bottom:10px">TikTok X-Ray</h3>
+          <p class="text-sm text-muted mb-12">Google-indexed TikTok profiles show basic info. But note: hashtag search WITHIN TikTok is actually more powerful here.</p>
+          <div style="background:var(--bg-card);padding:10px 14px;border-radius:6px;font-family:monospace;font-size:12px;color:var(--text-white);margin-bottom:12px;line-height:1.6">
+            site:tiktok.com attorney OR lawyer<br>
+            site:tiktok.com "financial advisor" "Dallas"<br>
+            site:tiktok.com nurse OR "RN" "New York"
+          </div>
+          <div class="tip-box">
+            <div class="tip-label">Better in App</div>
+            <p>For TikTok, searching hashtags inside the app (#attorney #lawyerlife) often yields better results than Google x-ray. Use both.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div style="width:48px;height:48px;border-radius:12px;background:rgba(255,100,0,0.15);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">🌳</div>
+          <h3 style="font-size:16px;font-weight:600;color:var(--text-white);margin-bottom:10px">Finding Contact Info via Linktree</h3>
+          <p class="text-sm text-muted mb-12">Many social profiles include a Linktree link in their bio. That Linktree often contains personal websites, email addresses, and other contact methods.</p>
+          <ul class="content-list">
+            <li>When you find a promising profile via social X-ray, check if they have a Linktree</li>
+            <li>Linktree pages are indexed — search <code style="background:var(--accent-bg);padding:2px 6px;border-radius:4px;font-size:12px">site:linktr.ee "[name]"</code></li>
+            <li>Often reveals personal email, portfolio, GitHub, or other platforms</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <div class="tip-label">🎯 Social Media Sourcing Rule</div>
+        <p><strong>Keep it simple.</strong> People only put basics on social profiles — city, state, job title, maybe industry keywords. Use 2-3 terms max. Don't paste a full Boolean string — you'll get zero results. Save the complex strings for LinkedIn and resume searches.</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- MODULE 7: RYLEM DIVERSITY EDGE -->
+      <div id="diversity" style="padding-top:20px"></div>
+      <div class="section-label">Technique 7 — Rylem's Edge</div>
+      <h2 class="section-heading" style="border:none;margin-top:0"><span>🌟</span> Rylem's Diversity Sourcing Edge</h2>
+      <p class="text-sm text-muted mb-16">This isn't just a sourcing technique. It's a core competitive differentiator for Rylem. Understanding why this matters — and being able to explain it to clients — sets us apart.</p>
+
+      <div class="card" style="border-left:4px solid var(--green)">
+        <div class="card-title"><span class="card-icon">🔑</span> The Algorithm Problem: LinkedIn's Hidden Bias</div>
+        <p class="text-sm text-muted mb-16">LinkedIn's search algorithm is designed to surface candidates most connected to YOU. On the surface, that sounds helpful. In practice, it creates a dangerous echo chamber:</p>
+        <div class="diff-grid" style="grid-template-columns:1fr 1fr">
+          <div class="diff-item">
+            <div class="diff-metric" style="font-size:14px">LinkedIn Recruiter Results</div>
+            <ul style="margin-top:8px;padding-left:16px;font-size:13px;color:var(--text-muted)">
+              <li>Prioritizes 1st/2nd/3rd degree connections</li>
+              <li>Surfaces people from your same schools</li>
+              <li>Elevates people from your former companies</li>
+              <li>Creates a feedback loop: homogenous network → homogenous results</li>
+              <li>If your network skews one direction, so does your candidate pool</li>
+            </ul>
+          </div>
+          <div class="diff-item">
+            <div class="diff-metric" style="font-size:14px">Google X-Ray Results</div>
+            <ul style="margin-top:8px;padding-left:16px;font-size:13px;color:var(--text-muted)">
+              <li>Google has zero knowledge of LinkedIn's network graph</li>
+              <li>Returns results based <strong>purely on content match</strong></li>
+              <li>No bias toward your connections, school, or past employers</li>
+              <li>Surfaces truly diverse candidate pools from across the entire platform</li>
+              <li>Levels the playing field — best match wins, period</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-16">
+        <div class="card-title"><span class="card-icon">💬</span> How to Pitch This to Clients</div>
+        <p class="text-sm text-muted mb-12">When clients ask about Rylem's diversity sourcing approach, this is your answer:</p>
+        <div class="info-box" style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:8px;padding:16px 20px;font-style:italic;color:var(--text-muted);line-height:1.7">
+          "Most recruiters use LinkedIn Recruiter, which actually filters results based on the recruiter's existing network. If that network isn't diverse, the results won't be either. We use Google X-ray search — which bypasses LinkedIn's algorithm entirely and returns results based purely on skills and qualifications. It's one of the reasons our workforce is 95% diverse: our sourcing tools don't have the bias problem that standard LinkedIn search does."
+        </div>
+      </div>
+
+      <div class="card-grid mt-16">
+        <div class="card">
+          <div style="width:48px;height:48px;border-radius:12px;background:var(--accent-bg);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">🏆</div>
+          <h3 style="font-size:16px;font-weight:600;color:var(--text-white);margin-bottom:10px">Connects to Rylem's Certification</h3>
+          <p class="text-sm text-muted">Rylem is diversity-certified. That certification is a hard-won differentiator — especially for enterprise and government contracts that require diverse supplier programs. X-ray sourcing is a concrete, methodology-based reason WHY Rylem can deliver diverse candidate slates that other agencies can't.</p>
+        </div>
+        <div class="card">
+          <div style="width:48px;height:48px;border-radius:12px;background:rgba(99,102,241,0.15);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">📊</div>
+          <h3 style="font-size:16px;font-weight:600;color:var(--text-white);margin-bottom:10px">The Numbers Back It Up</h3>
+          <p class="text-sm text-muted">When you're competing for supplier diversity contracts, clients need to know you can actually deliver — not just that you have a certification. Being able to explain the sourcing methodology (Google x-ray vs. LinkedIn's biased algorithm) demonstrates operational rigor, not just paperwork.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- PRACTICE EXERCISES -->
+      <div id="exercises" style="padding-top:20px"></div>
+      <div class="section-label">Practice</div>
+      <h2 class="section-heading" style="border:none;margin-top:0"><span>🏋️</span> Exercises: Build Your Search Strings</h2>
+      <p class="text-sm text-muted mb-16">Don't just read this — practice it. Complete all five exercises before your next sourcing session. Write your search strings out, run them in Google, and note what you find.</p>
+
+      <div class="card">
+        <div class="card-title"><span class="card-icon">📝</span> Exercise 1 — Flip Search</div>
+        <p class="text-sm text-muted mb-12">You're sourcing for a Finance Manager role that requires a CFA designation.</p>
+        <ul class="content-list">
+          <li>Build a flip search using the CFA Institute's domain: <strong>cfainstitute.org</strong></li>
+          <li>Combine it with resume keywords and the job title</li>
+          <li>Run it in Google and screenshot the top 3 results</li>
+          <li><strong>Bonus:</strong> Repeat with <strong>aicpa.org</strong> for CPA-designated candidates</li>
+        </ul>
+        <div class="tip-box mt-12">
+          <div class="tip-label">Check Yourself</div>
+          <p>Your search should look something like: <code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">link:cfainstitute.org resume OR CV "finance manager" OR "portfolio manager"</code></p>
+        </div>
+      </div>
+
+      <div class="card mt-16">
+        <div class="card-title"><span class="card-icon">📝</span> Exercise 2 — TLD X-Ray for Developer Portfolios</div>
+        <p class="text-sm text-muted mb-12">You're sourcing a Back End Engineer with Python and AWS experience.</p>
+        <ul class="content-list">
+          <li>Build an X-ray search targeting <strong>.tech</strong> and <strong>.dev</strong> domains for resumes and portfolios</li>
+          <li>Include the title and required skills in your search</li>
+          <li>Run it and find at least one legitimate portfolio or resume</li>
+          <li><strong>Bonus:</strong> Try the same search against <strong>site:.io</strong> — compare results</li>
+        </ul>
+        <div class="tip-box mt-12">
+          <div class="tip-label">Check Yourself</div>
+          <p>Example: <code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:.tech resume OR portfolio "back end engineer" "Python" "AWS"</code></p>
+        </div>
+      </div>
+
+      <div class="card mt-16">
+        <div class="card-title"><span class="card-icon">📝</span> Exercise 3 — LinkedIn X-Ray with Diversity Filter</div>
+        <p class="text-sm text-muted mb-12">You're sourcing a Senior Data Analyst in the Chicago area with Tableau experience. Client has requested diverse candidates.</p>
+        <ul class="content-list">
+          <li>Build a LinkedIn X-ray using <strong>site:www.linkedin.com/in</strong> (US-only)</li>
+          <li>Include the job title, key skill, and location using LinkedIn's phrasing</li>
+          <li>Run the search and compare to what LinkedIn Recruiter shows you for the same role</li>
+          <li><strong>Discuss:</strong> How are the results different? Do you see candidates that didn't appear in LinkedIn Recruiter?</li>
+        </ul>
+        <div class="tip-box mt-12">
+          <div class="tip-label">Check Yourself</div>
+          <p>Example: <code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:www.linkedin.com/in "data analyst" "Tableau" "Chicago, Illinois"</code> — Note: use LinkedIn's exact location phrasing</p>
+        </div>
+      </div>
+
+      <div class="card mt-16">
+        <div class="card-title"><span class="card-icon">📝</span> Exercise 4 — Competitor X-Ray</div>
+        <p class="text-sm text-muted mb-12">Your client needs a Senior Product Manager with experience at a top tech company. They specifically want someone who's worked at Amazon, Google, or Meta.</p>
+        <ul class="content-list">
+          <li>X-ray at least TWO of these company sites for product manager profiles</li>
+          <li>Add seniority level and any required skills</li>
+          <li>Find at least one profile page or bio that surfaces a PM with the right background</li>
+        </ul>
+        <div class="tip-box mt-12">
+          <div class="tip-label">Check Yourself</div>
+          <p>Example: <code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:amazon.com "senior product manager" "AWS" OR "Alexa"</code></p>
+        </div>
+      </div>
+
+      <div class="card mt-16">
+        <div class="card-title"><span class="card-icon">📝</span> Exercise 5 — Full Search Stack (Capstone)</div>
+        <p class="text-sm text-muted mb-12">Pick an open req you're currently working. Build three different searches for it using three different techniques from this module:</p>
+        <div class="diff-grid" style="grid-template-columns:repeat(3,1fr)">
+          <div class="diff-item">
+            <div class="diff-metric" style="font-size:14px">Search #1</div>
+            <p style="font-size:13px;color:var(--text-muted);margin-top:8px">Flip search using the most relevant certification body for this role</p>
+          </div>
+          <div class="diff-item">
+            <div class="diff-metric" style="font-size:14px">Search #2</div>
+            <p style="font-size:13px;color:var(--text-muted);margin-top:8px">LinkedIn X-ray targeting US-only profiles with location + skills</p>
+          </div>
+          <div class="diff-item">
+            <div class="diff-metric" style="font-size:14px">Search #3</div>
+            <p style="font-size:13px;color:var(--text-muted);margin-top:8px">TLD X-ray targeting a specialty domain relevant to the role (e.g., .tech, .dev, .edu)</p>
+          </div>
+        </div>
+        <div class="tip-box mt-12">
+          <div class="tip-label">Goal</div>
+          <p>Compare candidate quality and diversity across the three searches. This is your baseline sourcing toolkit for every req going forward.</p>
+        </div>
+      </div>
+
+      <!-- QUICK REFERENCE CHEAT SHEET -->
+      <div class="section-heading" style="margin-top:40px"><span>📋</span> Quick Reference: All Operators</div>
+      <div class="cheat-grid">
+        <div class="cheat-card">
+          <h4>🔗 Flip / Link Search</h4>
+          <ul>
+            <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">link:pmi.org</code> — PMP certified</li>
+            <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">link:shrm.org</code> — HR certified</li>
+            <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">link:cfainstitute.org</code> — CFA</li>
+            <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">link:aicpa.org</code> — CPA</li>
+            <li>No space after colon. No www. No http.</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h4>🔭 X-Ray (Site Operator)</h4>
+          <ul>
+            <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:company.com</code> — full domain</li>
+            <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:sub.company.com</code> — subdomain</li>
+            <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:.tech</code> — entire TLD</li>
+            <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:.edu resume</code> — university pages</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h4>💼 LinkedIn X-Ray</h4>
+          <ul>
+            <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:linkedin.com/in</code> — all regions</li>
+            <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:www.linkedin.com/in</code> — US only</li>
+            <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:ca.linkedin.com/in</code> — Canada</li>
+            <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:uk.linkedin.com/in</code> — UK</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h4>🌍 Key TLDs by Category</h4>
+          <ul>
+            <li><strong>Tech:</strong> .tech .dev .io .ai</li>
+            <li><strong>Education:</strong> .edu</li>
+            <li><strong>Government:</strong> .gov .mil</li>
+            <li><strong>Country:</strong> .ca .uk .de .au .in</li>
+            <li>Full list: data.iana.org/TLD/tlds-alpha-by-domain.txt</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h4>📱 Social Media X-Ray</h4>
+          <ul>
+            <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:tiktok.com [title] [city]</code></li>
+            <li><code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">site:linktr.ee "[name]"</code></li>
+            <li>Keep social searches SIMPLE (2-3 terms)</li>
+            <li>Check Linktree bios for contact info</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h4>🚨 Common Mistakes</h4>
+          <ul>
+            <li>Space after colon: <code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">link: pmi.org</code> ❌</li>
+            <li>No domain: <code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">link:PMP</code> ❌</li>
+            <li>Over-complicated social searches ❌</li>
+            <li>Forgetting <code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:12px">www.</code> for US-only LinkedIn ❌</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="nav-buttons">
+        <a href="recruiter-tech-overview.html" class="nav-btn secondary">← Tech Overview</a>
+        <a href="recruiter-overview.html" class="nav-btn primary">Back to Recruiter Overview →</a>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<footer class="site-footer">Rylem Academy — Internal Training Portal | 2026</footer>
+<script src="app.js"></script>
+<script src="chat-widget.js"></script>
+<script>
+// ── Boolean Search Builder ───────────────────────────────────────────────
+(function () {
+  const BUILDER_CSS = `
+    .rylem-sb-section {
+      margin: 40px 0 32px;
+    }
+    .rylem-sb-heading {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text, #e8e8e8);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .rylem-sb-scenario {
+      background: var(--card-bg, #1a1a2e);
+      border: 1px solid var(--border, #2a2a4a);
+      border-radius: 10px;
+      padding: 20px 22px;
+      margin-bottom: 18px;
+    }
+    .rylem-sb-prompt {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text, #e8e8e8);
+      margin-bottom: 4px;
+    }
+    .rylem-sb-num {
+      display: inline-block;
+      background: #0a6e3f;
+      color: #00e87a;
+      border-radius: 50%;
+      width: 26px; height: 26px;
+      line-height: 26px;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-right: 10px;
+    }
+    .rylem-sb-hint {
+      font-size: 0.8rem;
+      color: var(--text-muted, #8888aa);
+      margin-bottom: 12px;
+      margin-left: 36px;
+    }
+    .rylem-sb-input-wrap {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+    }
+    .rylem-sb-input {
+      flex: 1;
+      background: #0a0a15;
+      border: 1.5px solid #1a4a2e;
+      border-radius: 7px;
+      color: #00e87a;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.88rem;
+      padding: 11px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      caret-color: #00e87a;
+    }
+    .rylem-sb-input:focus { border-color: #00c864; }
+    .rylem-sb-input::placeholder { color: #1a5a3a; }
+    .rylem-sb-check-btn {
+      background: #0a6e3f;
+      color: #00e87a;
+      border: 1.5px solid #00c864;
+      border-radius: 7px;
+      padding: 0 18px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .rylem-sb-check-btn:hover { background: #0d8a50; }
+    .rylem-sb-result {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      padding: 9px 14px;
+      border-radius: 7px;
+      display: none;
+      line-height: 1.5;
+    }
+    .rylem-sb-result.visible { display: block; }
+    .rylem-sb-result.pass { background: rgba(0,200,100,0.1); color: #00e87a; border: 1px solid rgba(0,200,100,0.25); }
+    .rylem-sb-result.fail { background: rgba(220,50,50,0.1); color: #ff7b7b; border: 1px solid rgba(220,50,50,0.25); }
+    .rylem-sb-correct-ans { margin-top: 6px; font-family: 'Courier New', Courier, monospace; font-size: 0.82rem; color: #8888aa; }
+  `;
+
+  const SCENARIOS = [
+    {
+      prompt: 'Find LinkedIn profiles of software engineers in Austin, Texas',
+      hint: 'Hint: Use site:, quotes around the job title, and a location term.',
+      validate: function (val) {
+        const v = val.toLowerCase();
+        return (
+          v.includes('site:linkedin.com/in') &&
+          v.includes('"software engineer"') &&
+          v.includes('austin')
+        );
+      },
+      example: 'site:www.linkedin.com/in "software engineer" Austin Texas',
+      missing: function (val) {
+        const v = val.toLowerCase();
+        const missing = [];
+        if (!v.includes('site:linkedin.com/in')) missing.push('site:linkedin.com/in (or site:www.linkedin.com/in)');
+        if (!v.includes('"software engineer"')) missing.push('"software engineer" (in quotes)');
+        if (!v.includes('austin')) missing.push('Austin');
+        return missing;
+      }
+    },
+    {
+      prompt: 'Find resumes of people with PMP certification',
+      hint: 'Hint: Use link: to find pages that reference the PMP certifying body, and include resume or CV.',
+      validate: function (val) {
+        const v = val.toLowerCase();
+        return (
+          v.includes('link:pmi.org') &&
+          (v.includes('resume') || v.includes('cv'))
+        );
+      },
+      example: 'link:pmi.org resume OR CV "project manager"',
+      missing: function (val) {
+        const v = val.toLowerCase();
+        const missing = [];
+        if (!v.includes('link:pmi.org')) missing.push('link:pmi.org');
+        if (!v.includes('resume') && !v.includes('cv')) missing.push('resume OR CV');
+        return missing;
+      }
+    },
+    {
+      prompt: "X-ray Microsoft's website for program managers",
+      hint: 'Hint: Use site: to scope to Microsoft, and quotes around the job title.',
+      validate: function (val) {
+        const v = val.toLowerCase();
+        return (
+          v.includes('site:microsoft.com') &&
+          v.includes('"program manager"')
+        );
+      },
+      example: 'site:microsoft.com "program manager"',
+      missing: function (val) {
+        const v = val.toLowerCase();
+        const missing = [];
+        if (!v.includes('site:microsoft.com')) missing.push('site:microsoft.com');
+        if (!v.includes('"program manager"')) missing.push('"program manager" (in quotes)');
+        return missing;
+      }
+    }
+  ];
+
+  function buildSearchBuilder() {
+    const section = document.createElement('div');
+    section.className = 'rylem-sb-section';
+
+    const heading = document.createElement('div');
+    heading.className = 'rylem-sb-heading';
+    heading.innerHTML = '🔨 Search Builder — Try It Yourself';
+    section.appendChild(heading);
+
+    SCENARIOS.forEach((sc, idx) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'rylem-sb-scenario';
+
+      const prompt = document.createElement('div');
+      prompt.className = 'rylem-sb-prompt';
+      prompt.innerHTML = `<span class="rylem-sb-num">${idx + 1}</span>${sc.prompt}`;
+      wrap.appendChild(prompt);
+
+      const hint = document.createElement('div');
+      hint.className = 'rylem-sb-hint';
+      hint.textContent = sc.hint;
+      wrap.appendChild(hint);
+
+      const inputWrap = document.createElement('div');
+      inputWrap.className = 'rylem-sb-input-wrap';
+
+      const input = document.createElement('input');
+      input.className = 'rylem-sb-input';
+      input.type = 'text';
+      input.placeholder = 'Type your search string here...';
+      input.spellcheck = false;
+      input.autocomplete = 'off';
+
+      const checkBtn = document.createElement('button');
+      checkBtn.className = 'rylem-sb-check-btn';
+      checkBtn.textContent = 'Check';
+
+      inputWrap.appendChild(input);
+      inputWrap.appendChild(checkBtn);
+      wrap.appendChild(inputWrap);
+
+      const result = document.createElement('div');
+      result.className = 'rylem-sb-result';
+      wrap.appendChild(result);
+
+      function check() {
+        const val = input.value.trim();
+        if (!val) return;
+        const passed = sc.validate(val);
+        result.classList.add('visible');
+        if (passed) {
+          result.className = 'rylem-sb-result visible pass';
+          result.innerHTML = '✅ Correct! Your search string contains all required elements.';
+        } else {
+          const missing = sc.missing(val);
+          result.className = 'rylem-sb-result visible fail';
+          result.innerHTML = `❌ Not quite. Missing: <strong>${missing.join(', ')}</strong>`;
+          const ans = document.createElement('div');
+          ans.className = 'rylem-sb-correct-ans';
+          ans.textContent = 'Example: ' + sc.example;
+          result.appendChild(ans);
+        }
+      }
+
+      checkBtn.addEventListener('click', check);
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') check(); });
+
+      section.appendChild(wrap);
+    });
+
+    return section;
+  }
+
+  function init() {
+    // Inject styles
+    if (!document.getElementById('rylem-sb-styles')) {
+      const style = document.createElement('style');
+      style.id = 'rylem-sb-styles';
+      style.textContent = BUILDER_CSS;
+      document.head.appendChild(style);
+    }
+
+    // Insert before .nav-buttons
+    const navEl = document.querySelector('.nav-buttons');
+    if (navEl) {
+      navEl.parentNode.insertBefore(buildSearchBuilder(), navEl);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+// ── Quiz Data ─────────────────────────────────────────────────────────────
+window.RYLEM_QUIZ = [
+  {
+    question: "What operator finds pages that link to a specific domain?",
+    options: ["site:", "link:", "inurl:", "filetype:"],
+    answer: "link:",
+    explanation: "The link: operator finds pages that link to a specific URL or domain — useful for finding certified professionals."
+  },
+  {
+    question: "Why is Google X-ray often better than LinkedIn Recruiter for sourcing?",
+    options: [
+      "It's faster",
+      "It ignores LinkedIn's network bias algorithm",
+      "It shows more profile data",
+      "It's free"
+    ],
+    answer: "It ignores LinkedIn's network bias algorithm",
+    explanation: "LinkedIn Recruiter surfaces results filtered through its own algorithm (which favors your network). X-ray via Google bypasses that bias entirely."
+  },
+  {
+    question: "To search ONLY US-based LinkedIn profiles, what do you use?",
+    options: [
+      "site:linkedin.com/in",
+      "site:www.linkedin.com/in",
+      "site:us.linkedin.com/in",
+      "site:linkedin.com/us"
+    ],
+    answer: "site:www.linkedin.com/in",
+    explanation: "site:www.linkedin.com/in scopes results to US profiles. Without 'www', you get international profiles mixed in."
+  },
+  {
+    question: "What kills a link: search?",
+    options: [
+      "Using quotes",
+      "A space after the colon",
+      "Using OR",
+      "Using parentheses"
+    ],
+    answer: "A space after the colon",
+    explanation: "Boolean operators must have NO space after the colon. 'link: pmi.org' is invalid; 'link:pmi.org' is correct."
+  },
+  {
+    question: "How does X-ray sourcing support Rylem's diversity mission?",
+    options: [
+      "It finds more diverse job boards",
+      "It bypasses LinkedIn's echo chamber bias",
+      "It searches diversity-specific sites",
+      "It filters by demographics"
+    ],
+    answer: "It bypasses LinkedIn's echo chamber bias",
+    explanation: "LinkedIn's algorithm tends to resurface profiles similar to ones you've already engaged with. X-ray breaks that echo chamber, exposing a more diverse candidate pool."
+  }
+];
+</script>
+<script src="progress-tracker.js"></script>
+<script src="quiz-engine.js"></script>
+</body>
+</html>

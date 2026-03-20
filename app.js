@@ -1,78 +1,88 @@
-/* ============================================================
-   RYLEM Training Portal — Shared JS
-   ============================================================ */
+/* ── Rylem Academy — Shared JavaScript ── */
 
-document.addEventListener('DOMContentLoaded', function () {
+(function() {
+  'use strict';
 
-  // ── Highlight active nav link ──────────────────────────────
-  const page = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.sidebar-nav a').forEach(function (link) {
+  // ── Mobile Nav Toggle ──
+  const hamburger = document.getElementById('navHamburger');
+  const navLinks = document.getElementById('navLinks');
+  if (hamburger && navLinks) {
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+    // Close on link click (mobile)
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+  }
+
+  // ── Collapsible Sections ──
+  document.querySelectorAll('.collapsible-header').forEach(header => {
+    header.addEventListener('click', () => {
+      header.parentElement.classList.toggle('open');
+    });
+  });
+
+  // ── localStorage key prefix ──
+  const STORAGE_PREFIX = 'rylem_academy_';
+  const pagePath = window.location.pathname.split('/').pop() || 'index';
+
+  // ── Checkbox Persistence ──
+  const checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+  
+  // Load saved state
+  checkboxes.forEach(cb => {
+    const key = STORAGE_PREFIX + pagePath + '_' + cb.id;
+    const saved = localStorage.getItem(key);
+    if (saved === 'true') cb.checked = true;
+  });
+
+  // Save on change + update progress
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', () => {
+      const key = STORAGE_PREFIX + pagePath + '_' + cb.id;
+      localStorage.setItem(key, cb.checked);
+      updateProgress();
+    });
+  });
+
+  // ── Progress Bar Updates ──
+  function updateProgress() {
+    document.querySelectorAll('.milestone-section, .card').forEach(section => {
+      const checks = section.querySelectorAll('.checklist input[type="checkbox"]');
+      if (checks.length === 0) return;
+      
+      const checked = Array.from(checks).filter(c => c.checked).length;
+      const total = checks.length;
+      const pct = Math.round((checked / total) * 100);
+
+      const counter = section.querySelector('.milestone-counter');
+      if (counter) counter.textContent = checked + ' / ' + total + ' completed';
+
+      const bar = section.querySelector('.progress-bar-fill');
+      if (bar) bar.style.width = pct + '%';
+    });
+  }
+
+  // Initial progress calculation
+  updateProgress();
+
+  // ── Active Nav Highlighting ──
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-links a, .sub-nav a').forEach(link => {
     const href = link.getAttribute('href');
-    if (href === page || (page === '' && href === 'index.html')) {
+    if (href === currentPage || (currentPage === '' && href === 'index.html')) {
       link.classList.add('active');
     }
   });
 
-  // ── Mobile hamburger ───────────────────────────────────────
-  const hamburger = document.getElementById('hamburger');
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('sidebarOverlay');
-
-  if (hamburger && sidebar && overlay) {
-    hamburger.addEventListener('click', function () {
-      sidebar.classList.toggle('open');
-      overlay.classList.toggle('active');
-    });
-    overlay.addEventListener('click', function () {
-      sidebar.classList.remove('open');
-      overlay.classList.remove('active');
-    });
-  }
-
-  // ── Collapsible sections ───────────────────────────────────
-  document.querySelectorAll('.collapsible-header').forEach(function (header) {
-    header.addEventListener('click', function () {
-      const parent = header.closest('.collapsible');
-      parent.classList.toggle('open');
-    });
-  });
-
-  // ── Checkbox persistence (localStorage) ───────────────────
-  document.querySelectorAll('.checklist input[type="checkbox"]').forEach(function (cb) {
-    const key = 'cb_' + window.location.pathname + '_' + cb.id;
-    // Restore
-    if (localStorage.getItem(key) === 'checked') {
-      cb.checked = true;
-    }
-    // Save on change
-    cb.addEventListener('change', function () {
-      if (cb.checked) {
-        localStorage.setItem(key, 'checked');
-      } else {
-        localStorage.removeItem(key);
+  // ── Smooth Scroll for hash links ──
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
   });
 
-  // ── Progress bar for milestone checklists ─────────────────
-  document.querySelectorAll('.milestone-section').forEach(function (section) {
-    const boxes = section.querySelectorAll('input[type="checkbox"]');
-    const bar = section.querySelector('.progress-bar-fill');
-    const counter = section.querySelector('.milestone-counter');
-
-    function updateProgress() {
-      const checked = section.querySelectorAll('input[type="checkbox"]:checked').length;
-      const total = boxes.length;
-      const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
-      if (bar) bar.style.width = pct + '%';
-      if (counter) counter.textContent = checked + ' / ' + total + ' completed';
-    }
-
-    boxes.forEach(function (cb) {
-      cb.addEventListener('change', updateProgress);
-    });
-
-    updateProgress();
-  });
-
-});
+})();

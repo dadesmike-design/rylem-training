@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="auth.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Overview for Recruiters — Rylem Academy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-brand"><div class="logo-icon">R</div> Rylem<span>Academy</span></a>
+  <button class="nav-hamburger" id="navHamburger">☰</button>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="sales-overview.html">Sales Training</a>
+    <a href="recruiter-overview.html" class="active">Recruiter Training</a>
+    <a href="pipeline.html">Pipeline</a>
+    <a href="architecture.html">Architecture</a>
+  </div>
+</nav>
+
+<div class="page-body">
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">Recruiter Training • Tech Overview</div>
+      <h1>How <em>Technology</em> Actually Works</h1>
+      <p>A visual guide for recruiters. Understand what you're selling, talk to candidates with confidence, and match the right talent to the right stack.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">7</div><div class="label">Modules</div></div>
+        <div class="hero-stat"><div class="num">~20 min</div><div class="label">Read Time</div></div>
+        <div class="hero-stat"><div class="num">2026</div><div class="label">Updated</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="sub-nav">
+        <a href="recruiter-overview.html">Overview</a>
+        <a href="recruiter-foundation.html">Foundation</a>
+        <a href="recruiter-execution.html">Execution</a>
+        <a href="recruiter-acceleration.html">Acceleration</a>
+        <a href="recruiter-lead-gen.html">Lead Gen</a>
+        <a href="recruiter-negotiation.html">Negotiation</a>
+        <a href="recruiter-objections.html">Objections</a>
+        <a href="recruiter-compliance.html">Compliance</a>
+        <a href="recruiter-tech-overview.html" class="active">Tech Overview</a>
+        <a href="recruiter-advanced-sourcing.html">Advanced Sourcing</a>
+      </div>
+
+      <!-- In-page module nav -->
+      <div class="sub-nav" style="border-top:1px solid var(--border);padding-top:16px">
+        <a href="#foundations">Foundations</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#stacks">Tech Stacks</a>
+        <a href="#roles">Roles</a>
+        <a href="#sdlc">SDLC</a>
+        <a href="#cloud">Cloud & DevOps</a>
+        <a href="#cheatsheet">Cheat Sheet</a>
+      </div>
+
+      <!-- MODULE 1: FOUNDATIONS -->
+      <div id="foundations" style="padding-top:20px"></div>
+      <div class="section-label">Module 1</div>
+      <h2 class="section-heading" style="border:none;margin-top:0"><span>🖥️</span> The Basics: Hardware vs Software</h2>
+      <p class="text-sm text-muted mb-16">Every tech role falls into one of these two worlds — or the bridge between them.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div style="width:48px;height:48px;border-radius:12px;background:var(--accent-bg);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">🖥️</div>
+          <h3 style="font-size:18px;font-weight:600;color:var(--text-white);margin-bottom:10px">Hardware</h3>
+          <p class="text-sm text-muted">The physical stuff you can touch. Servers, laptops, network switches, CPUs, GPUs. When a company says "infrastructure," they usually mean hardware + the software that runs it.</p>
+          <div class="tip-box mt-12">
+            <div class="tip-label">Recruiter Tip</div>
+            <p>Hardware roles (Network Engineer, Systems Admin, Data Center Tech) are often on-site. Remote is rare. Pay attention to location requirements.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div style="width:48px;height:48px;border-radius:12px;background:rgba(59,130,246,0.15);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">💻</div>
+          <h3 style="font-size:18px;font-weight:600;color:var(--text-white);margin-bottom:10px">Software</h3>
+          <p class="text-sm text-muted">The programs, apps, and systems that run on hardware. Everything from your phone's apps to Netflix's recommendation engine to a company's internal tools.</p>
+          <div class="tip-box mt-12">
+            <div class="tip-label">Recruiter Tip</div>
+            <p>Software roles are the bulk of tech hiring. They're more likely to be remote-friendly. Focus on languages, frameworks, and cloud experience.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- MODULE 2: ARCHITECTURE -->
+      <div id="architecture" style="padding-top:20px"></div>
+      <div class="section-label">Module 2</div>
+      <h2 class="section-heading" style="border:none;margin-top:0"><span>🏗️</span> How Modern Apps Are Built</h2>
+      <p class="text-sm text-muted mb-16">Think of a modern app like a restaurant: the dining room (frontend), the kitchen (backend), the pantry (database), and the delivery trucks (APIs).</p>
+
+      <div class="arch-diagram">
+        <div class="arch-layers">
+          <div class="arch-layer frontend">
+            <div class="layer-name">🎨 Frontend</div>
+            <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">What users see and interact with</p>
+            <span class="tech-pill">React</span><span class="tech-pill">TypeScript</span><span class="tech-pill">Next.js</span><span class="tech-pill">Vue</span><span class="tech-pill">Angular</span><span class="tech-pill">HTML/CSS</span><span class="tech-pill">Tailwind</span><span class="tech-pill">Swift (iOS)</span><span class="tech-pill">Kotlin (Android)</span><span class="tech-pill">React Native</span>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-layer backend">
+            <div class="layer-name">⚙️ Backend / APIs</div>
+            <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Business logic, processing, rules</p>
+            <span class="tech-pill">Node.js</span><span class="tech-pill">Python</span><span class="tech-pill">Java</span><span class="tech-pill">C# / .NET</span><span class="tech-pill">Go</span><span class="tech-pill">Rust</span><span class="tech-pill">Ruby</span><span class="tech-pill">REST APIs</span><span class="tech-pill">GraphQL</span><span class="tech-pill">gRPC</span>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-layer data">
+            <div class="layer-name">🗄️ Data Layer</div>
+            <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Where information lives</p>
+            <span class="tech-pill">PostgreSQL</span><span class="tech-pill">MySQL</span><span class="tech-pill">MongoDB</span><span class="tech-pill">Redis</span><span class="tech-pill">Elasticsearch</span><span class="tech-pill">Snowflake</span><span class="tech-pill">DynamoDB</span><span class="tech-pill">SQL Server</span>
+          </div>
+        </div>
+        <div style="margin-top:24px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;position:relative;z-index:1">
+          <div class="arch-layer infra" style="flex:1;min-width:200px">
+            <div class="layer-name">☁️ Cloud / Infrastructure</div>
+            <span class="tech-pill">AWS</span><span class="tech-pill">Azure</span><span class="tech-pill">GCP</span><span class="tech-pill">Docker</span><span class="tech-pill">Kubernetes</span><span class="tech-pill">Terraform</span>
+          </div>
+          <div class="arch-layer devops" style="flex:1;min-width:200px">
+            <div class="layer-name">🔄 DevOps / CI/CD</div>
+            <span class="tech-pill">GitHub Actions</span><span class="tech-pill">Jenkins</span><span class="tech-pill">CircleCI</span><span class="tech-pill">ArgoCD</span><span class="tech-pill">Datadog</span><span class="tech-pill">Splunk</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <div class="tip-label">Why This Matters for Recruiting</div>
+        <p>When a hiring manager says "We need a full-stack engineer," they want someone who can work across Frontend + Backend. When they say "We need a DevOps engineer," they want the Cloud/Infrastructure + CI/CD layer. Understanding these layers helps you match resumes to job descriptions accurately.</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- MODULE 3: TECH STACKS -->
+      <div id="stacks" style="padding-top:20px"></div>
+      <div class="section-label">Module 3</div>
+      <h2 class="section-heading" style="border:none;margin-top:0"><span>📊</span> Tech Stacks: Old vs Modern</h2>
+      <p class="text-sm text-muted mb-16">A "stack" is the combination of technologies a company uses. Here's how they've evolved.</p>
+
+      <table class="compare-table">
+        <thead>
+          <tr><th>Layer</th><th>Legacy (2010s)</th><th>Modern (2024-2026)</th><th>What Changed</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="category-label">Frontend</td><td>jQuery, HTML/CSS, Angular.js</td><td>React, Next.js, TypeScript, Tailwind</td><td>Component-based, type-safe, faster</td></tr>
+          <tr><td class="category-label">Backend</td><td>Java, PHP, Ruby on Rails, C# .NET</td><td>Node.js, Python, Go, Rust, .NET 8</td><td>Microservices, serverless, faster</td></tr>
+          <tr><td class="category-label">Database</td><td>MySQL, SQL Server, Oracle</td><td>PostgreSQL, MongoDB, Redis, Snowflake</td><td>Cloud-native, real-time, data lakes</td></tr>
+          <tr><td class="category-label">Hosting</td><td>On-prem servers, co-location</td><td>AWS, Azure, GCP, Vercel, Cloudflare</td><td>Cloud-first, pay-per-use, global scale</td></tr>
+          <tr><td class="category-label">Deployment</td><td>Manual FTP, quarterly releases</td><td>CI/CD pipelines, deploy 50x/day</td><td>Automated, continuous, zero-downtime</td></tr>
+          <tr><td class="category-label">AI / ML</td><td>Didn't exist in most companies</td><td>OpenAI, LLMs, MLOps, vector DBs</td><td>Every company is adding AI roles now</td></tr>
+        </tbody>
+      </table>
+
+      <div class="tip-box">
+        <div class="tip-label">Recruiter Tip — Stack Translation</div>
+        <p><strong>Microsoft shop?</strong> Look for: C#, .NET, Azure, SQL Server, TypeScript, Teams<br>
+        <strong>Startup / modern?</strong> Look for: Python, React, AWS, PostgreSQL, Docker, Kubernetes<br>
+        <strong>Enterprise / legacy?</strong> Look for: Java, Oracle, SAP, on-prem, Waterfall<br>
+        <strong>AI / ML team?</strong> Look for: Python, PyTorch, TensorFlow, Hugging Face, MLflow, vector DBs</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- MODULE 4: ROLES -->
+      <div id="roles" style="padding-top:20px"></div>
+      <div class="section-label">Module 4</div>
+      <h2 class="section-heading" style="border:none;margin-top:0"><span>👥</span> Tech Roles Explained</h2>
+      <p class="text-sm text-muted mb-16">The same person might be called different titles at different companies. Focus on what they DO, not what they're called.</p>
+
+      <div class="role-grid">
+        <div class="role-card">
+          <h4>🏗️ Software Architect</h4>
+          <p>Designs the overall system. Picks technologies. Makes decisions that affect the whole engineering org. Rarely writes daily code anymore.</p>
+          <div class="salary">$180K–$280K+ | Senior/Staff level</div>
+        </div>
+        <div class="role-card">
+          <h4>👨‍💻 Software Engineer / Developer</h4>
+          <p>Writes the actual code. Builds features, fixes bugs, writes tests. The backbone of any engineering team. Levels: Junior → Mid → Senior → Staff → Principal.</p>
+          <div class="salary">$90K–$250K+ | All levels</div>
+        </div>
+        <div class="role-card">
+          <h4>🎨 Frontend Engineer</h4>
+          <p>Specializes in what users see — buttons, pages, animations. Works with React, CSS, TypeScript. Partners closely with designers.</p>
+          <div class="salary">$100K–$200K | Mid-Senior</div>
+        </div>
+        <div class="role-card">
+          <h4>⚙️ Backend Engineer</h4>
+          <p>Builds the server-side logic, APIs, and database interactions. The "behind the scenes" work. Python, Java, Go, Node.js.</p>
+          <div class="salary">$110K–$220K | Mid-Senior</div>
+        </div>
+        <div class="role-card">
+          <h4>🔧 Full-Stack Engineer</h4>
+          <p>Can work on both frontend AND backend. Jack of all trades. Very common at startups where teams are small.</p>
+          <div class="salary">$110K–$230K | Mid-Senior</div>
+        </div>
+        <div class="role-card">
+          <h4>☁️ DevOps / SRE / Platform Engineer</h4>
+          <p>Keeps systems running. Manages cloud infrastructure, deployments, monitoring. Site Reliability Engineer (SRE) is Google's version. Hottest hiring category in 2026.</p>
+          <div class="salary">$130K–$250K | Mid-Senior</div>
+        </div>
+        <div class="role-card">
+          <h4>📊 Data Engineer</h4>
+          <p>Builds pipelines that move and transform data. Works with Spark, Airflow, Snowflake, dbt. Different from Data Scientist (who analyzes data).</p>
+          <div class="salary">$120K–$220K | Mid-Senior</div>
+        </div>
+        <div class="role-card">
+          <h4>🤖 AI / ML Engineer</h4>
+          <p>Builds machine learning models and AI features. Python, PyTorch, LLMs, prompt engineering. The fastest-growing role category in tech right now.</p>
+          <div class="salary">$150K–$350K+ | Mid-Senior</div>
+        </div>
+        <div class="role-card">
+          <h4>🔒 Security Engineer</h4>
+          <p>Protects systems from hackers. Penetration testing, compliance, incident response. Every company needs them — most are understaffed.</p>
+          <div class="salary">$130K–$250K | Mid-Senior</div>
+        </div>
+        <div class="role-card">
+          <h4>🛠️ Systems / IT Administrator</h4>
+          <p>Manages internal tools, networks, servers. Keeps the lights on. Often works with Active Directory, Office 365, networking gear.</p>
+          <div class="salary">$70K–$140K | Junior-Senior</div>
+        </div>
+        <div class="role-card">
+          <h4>📋 Product Manager (Technical)</h4>
+          <p>Not an engineer, but works with engineers daily. Decides WHAT to build and WHY. Bridges business and technology. Often needs technical literacy.</p>
+          <div class="salary">$120K–$220K | Mid-Senior</div>
+        </div>
+        <div class="role-card">
+          <h4>🧪 QA / Test Engineer</h4>
+          <p>Makes sure software works before it ships. Manual testing → automated testing → SDET (writes code to test code). Critical but often overlooked.</p>
+          <div class="salary">$80K–$170K | All levels</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- MODULE 5: SDLC -->
+      <div id="sdlc" style="padding-top:20px"></div>
+      <div class="section-label">Module 5</div>
+      <h2 class="section-heading" style="border:none;margin-top:0"><span>🔄</span> How Software Gets Built: SDLC</h2>
+      <p class="text-sm text-muted mb-16">Waterfall is the old way. Agile is the current standard. Here's what your candidates live every day.</p>
+
+      <h3 style="color:var(--text-white);margin-bottom:16px;font-size:18px">Waterfall (Legacy — still used in government/defense)</h3>
+      <div class="flow">
+        <div class="flow-step"><div class="step-num">Step 1</div><div class="step-name">Requirements</div><div class="step-desc">Gather all needs upfront</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="step-num">Step 2</div><div class="step-name">Design</div><div class="step-desc">Architect the solution</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="step-num">Step 3</div><div class="step-name">Build</div><div class="step-desc">Write all the code</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="step-num">Step 4</div><div class="step-name">Test</div><div class="step-desc">Find bugs at the end</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="step-num">Step 5</div><div class="step-name">Deploy</div><div class="step-desc">Ship it (pray it works)</div></div>
+      </div>
+
+      <h3 style="color:var(--text-white);margin:32px 0 16px;font-size:18px">Agile (Modern — 90% of tech companies)</h3>
+      <div class="flow" style="background:rgba(99,102,241,0.03)">
+        <div class="flow-step green"><div class="step-num">Sprint</div><div class="step-name">Plan</div><div class="step-desc">Pick work for 2 weeks</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step green"><div class="step-num">Sprint</div><div class="step-name">Build + Test</div><div class="step-desc">Code & test together</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step green"><div class="step-num">Sprint</div><div class="step-name">Review</div><div class="step-desc">Demo to stakeholders</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step green"><div class="step-num">Sprint</div><div class="step-name">Ship</div><div class="step-desc">Deploy to production</div></div>
+        <div class="flow-arrow">🔄</div>
+        <div class="flow-step green"><div class="step-num">Repeat</div><div class="step-name">Retro</div><div class="step-desc">What went well? Fix it.</div></div>
+      </div>
+
+      <div class="tip-box">
+        <div class="tip-label">Recruiter Tip — Agile Vocabulary</div>
+        <p><strong>Sprint:</strong> A 1-4 week work cycle (usually 2 weeks)<br>
+        <strong>Standup:</strong> Daily 15-min team check-in<br>
+        <strong>Scrum Master:</strong> Facilitates the Agile process (not a manager)<br>
+        <strong>Product Owner:</strong> Decides what to build next<br>
+        <strong>Backlog:</strong> The prioritized list of things to build<br>
+        <strong>Kanban:</strong> Alternative to Scrum — continuous flow, no sprints</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- MODULE 6: CLOUD & DEVOPS -->
+      <div id="cloud" style="padding-top:20px"></div>
+      <div class="section-label">Module 6</div>
+      <h2 class="section-heading" style="border:none;margin-top:0"><span>☁️</span> Cloud, AI & DevOps</h2>
+      <p class="text-sm text-muted mb-16">The three biggest shifts in tech hiring. If your candidate knows these, they're in demand.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div style="width:48px;height:48px;border-radius:12px;background:var(--green-bg);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">☁️</div>
+          <h3 style="font-size:18px;font-weight:600;color:var(--text-white);margin-bottom:10px">Cloud Computing</h3>
+          <p class="text-sm text-muted">Instead of buying servers, companies rent computing power from AWS, Azure, or Google Cloud. Almost every modern company has moved to cloud.</p>
+          <div class="tech-tags">
+            <span class="tag">AWS (Amazon) — #1 market share</span>
+            <span class="tag">Azure (Microsoft) — #2, big in enterprise</span>
+            <span class="tag">GCP (Google) — #3, strong in data/AI</span>
+          </div>
+          <div class="tip-box mt-12">
+            <div class="tip-label">Recruiter Tip</div>
+            <p>AWS certifications (Solutions Architect, Developer) are the most in-demand cloud certs. Azure certs are key for Microsoft shops. Ask candidates which cloud they've worked in — it matters.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div style="width:48px;height:48px;border-radius:12px;background:rgba(6,182,212,0.15);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">🔄</div>
+          <h3 style="font-size:18px;font-weight:600;color:var(--text-white);margin-bottom:10px">DevOps & CI/CD</h3>
+          <p class="text-sm text-muted">DevOps = Development + Operations working together. CI/CD = Continuous Integration / Continuous Deployment — automating the process of shipping code. Companies that do this well deploy new features multiple times per day.</p>
+          <div class="tech-tags">
+            <span class="tag">Docker — packages apps in containers</span>
+            <span class="tag">Kubernetes (K8s) — orchestrates containers</span>
+            <span class="tag">Terraform — infrastructure as code</span>
+            <span class="tag">Jenkins / GitHub Actions — automation</span>
+          </div>
+        </div>
+        <div class="card">
+          <div style="width:48px;height:48px;border-radius:12px;background:rgba(236,72,153,0.15);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">🤖</div>
+          <h3 style="font-size:18px;font-weight:600;color:var(--text-white);margin-bottom:10px">AI & Machine Learning</h3>
+          <p class="text-sm text-muted">The hottest area in tech. Every company is adding AI features. Large Language Models (LLMs like ChatGPT) have created entirely new role categories.</p>
+          <div class="tech-tags">
+            <span class="tag">Python — the #1 AI language</span>
+            <span class="tag">PyTorch / TensorFlow — ML frameworks</span>
+            <span class="tag">LLMs — Large Language Models</span>
+            <span class="tag">RAG — Retrieval Augmented Generation</span>
+            <span class="tag">Vector DBs — Pinecone, Weaviate</span>
+            <span class="tag">MLOps — deploying ML to production</span>
+          </div>
+          <div class="tip-box mt-12">
+            <div class="tip-label">Recruiter Tip</div>
+            <p>AI/ML roles pay 20-40% more than equivalent software roles. If a candidate has production ML experience (not just Kaggle), they're extremely valuable.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- MODULE 7: CHEAT SHEET -->
+      <div id="cheatsheet" style="padding-top:20px"></div>
+      <div class="section-label">Module 7</div>
+      <h2 class="section-heading" style="border:none;margin-top:0"><span>📋</span> Recruiter Cheat Sheet</h2>
+      <p class="text-sm text-muted mb-16">Quick reference cards. Print these. Pin them. Use them on every intake call.</p>
+
+      <div class="cheat-grid">
+        <div class="cheat-card">
+          <h4>🗣️ Intake Call Questions (Tech Roles)</h4>
+          <ul>
+            <li>"What's your tech stack?" (frontend, backend, cloud)</li>
+            <li>"Is this a new role or backfill?"</li>
+            <li>"Agile or Waterfall? Scrum or Kanban?"</li>
+            <li>"What cloud platform?" (AWS / Azure / GCP)</li>
+            <li>"Monolith or microservices?"</li>
+            <li>"What's the team size and who do they report to?"</li>
+            <li>"Any required certifications?"</li>
+            <li>"CI/CD pipeline — what tools?"</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h4>🔍 Resume Red/Green Flags</h4>
+          <ul>
+            <li><strong style="color:var(--green)">✅ Green:</strong> GitHub profile with real contributions</li>
+            <li><strong style="color:var(--green)">✅ Green:</strong> Specific tech versions (React 18, .NET 8)</li>
+            <li><strong style="color:var(--green)">✅ Green:</strong> Quantified impact ("reduced latency 40%")</li>
+            <li><strong style="color:var(--green)">✅ Green:</strong> Cloud certifications (AWS SA, Azure)</li>
+            <li><strong style="color:var(--red)">🚩 Red:</strong> Lists 20+ technologies with no depth</li>
+            <li><strong style="color:var(--red)">🚩 Red:</strong> "Proficient in all programming languages"</li>
+            <li><strong style="color:var(--red)">🚩 Red:</strong> No measurable achievements</li>
+            <li><strong style="color:var(--red)">🚩 Red:</strong> Only lists outdated tech (jQuery, COBOL)</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h4>💰 2026 Salary Ranges (US, W2)</h4>
+          <ul>
+            <li><strong>Junior SWE:</strong> $85K–$130K</li>
+            <li><strong>Mid SWE:</strong> $130K–$180K</li>
+            <li><strong>Senior SWE:</strong> $170K–$250K</li>
+            <li><strong>Staff/Principal:</strong> $220K–$350K+</li>
+            <li><strong>DevOps/SRE:</strong> $140K–$260K</li>
+            <li><strong>Data Engineer:</strong> $130K–$230K</li>
+            <li><strong>AI/ML Engineer:</strong> $160K–$350K+</li>
+            <li><strong>IT Admin/SysAdmin:</strong> $70K–$140K</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h4>🔤 Acronym Decoder</h4>
+          <ul>
+            <li><strong>API:</strong> Application Programming Interface (how systems talk)</li>
+            <li><strong>CI/CD:</strong> Continuous Integration / Continuous Deployment</li>
+            <li><strong>SaaS:</strong> Software as a Service (cloud apps)</li>
+            <li><strong>SDLC:</strong> Software Development Lifecycle</li>
+            <li><strong>SRE:</strong> Site Reliability Engineering</li>
+            <li><strong>LLM:</strong> Large Language Model (ChatGPT, etc.)</li>
+            <li><strong>K8s:</strong> Kubernetes (container orchestration)</li>
+            <li><strong>IaC:</strong> Infrastructure as Code (Terraform)</li>
+            <li><strong>RAG:</strong> Retrieval Augmented Generation (AI + search)</li>
+            <li><strong>SDET:</strong> Software Dev Engineer in Test</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h4>🏢 Common Stack by Company Type</h4>
+          <ul>
+            <li><strong>Microsoft ecosystem:</strong> C#, .NET, Azure, SQL Server, Teams</li>
+            <li><strong>Startup (Series A-C):</strong> React, Node/Python, AWS, PostgreSQL</li>
+            <li><strong>Enterprise (F500):</strong> Java, Spring, Oracle, on-prem + cloud hybrid</li>
+            <li><strong>AI company:</strong> Python, PyTorch, AWS/GCP, Snowflake, vector DBs</li>
+            <li><strong>Fintech:</strong> Java/Go, Kafka, PostgreSQL, strict security</li>
+            <li><strong>Gaming:</strong> C++, Unreal/Unity, cloud backend, GPU</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h4>📞 Candidate Screening Questions</h4>
+          <ul>
+            <li>"Walk me through a project you built end-to-end"</li>
+            <li>"Which cloud have you deployed to in production?"</li>
+            <li>"Do you prefer frontend, backend, or full-stack?"</li>
+            <li>"What's your experience with CI/CD pipelines?"</li>
+            <li>"Have you worked in Agile? What was your sprint cadence?"</li>
+            <li>"What's the largest team / codebase you've worked in?"</li>
+            <li>"Any experience with containerization (Docker/K8s)?"</li>
+            <li>"What's your ideal next role?"</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="nav-buttons">
+        <a href="recruiter-acceleration.html" class="nav-btn secondary">← Acceleration</a>
+        <a href="recruiter-overview.html" class="nav-btn primary">Back to Recruiter Overview →</a>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<footer class="site-footer">Rylem Academy — Internal Training Portal | 2026</footer>
+<script src="app.js"></script>
+<script>
+window.RYLEM_QUIZ = [
+  {
+    question: "What's the difference between frontend and backend?",
+    options: [
+      "Frontend = database, Backend = UI",
+      "Frontend = what users see, Backend = server logic",
+      "They're the same thing",
+      "Frontend = mobile, Backend = desktop"
+    ],
+    answer: "Frontend = what users see, Backend = server logic",
+    explanation: "Frontend is the UI (HTML/CSS/JS in the browser). Backend is the server, database, and business logic behind the scenes."
+  },
+  {
+    question: "What does SDLC stand for?",
+    options: [
+      "Software Development Life Cycle",
+      "System Design Logic Control",
+      "Software Delivery Launch Criteria",
+      "Standard Development Language Code"
+    ],
+    answer: "Software Development Life Cycle",
+    explanation: "SDLC = Software Development Life Cycle. Knowing this helps you understand what phase a candidate or project is in."
+  },
+  {
+    question: "What is an API?",
+    options: [
+      "A programming language",
+      "A way for systems to talk to each other",
+      "A type of database",
+      "A testing framework"
+    ],
+    answer: "A way for systems to talk to each other",
+    explanation: "API (Application Programming Interface) lets different software systems communicate. Think of it as a waiter taking your order to the kitchen."
+  },
+  {
+    question: "A JD asks for a \"full stack developer.\" What does that mean?",
+    options: [
+      "Only frontend",
+      "Only backend",
+      "Both frontend and backend",
+      "Only database"
+    ],
+    answer: "Both frontend and backend",
+    explanation: "Full stack means the candidate can work on both the UI (frontend) and the server/database (backend). They're versatile — and typically more expensive."
+  },
+  {
+    question: "What's the cloud?",
+    options: [
+      "A weather system",
+      "Servers owned by companies like AWS/Azure that others rent",
+      "A local server room",
+      "A type of software license"
+    ],
+    answer: "Servers owned by companies like AWS/Azure that others rent",
+    explanation: "The cloud = remote servers (owned by AWS, Azure, Google) that companies rent instead of buying their own hardware. Most tech companies run on cloud infrastructure."
+  }
+];
+</script>
+<script src="progress-tracker.js"></script>
+<script src="quiz-engine.js"></script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="auth.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checklists — Rylem Academy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-brand"><div class="logo-icon">R</div> Rylem<span>Academy</span></a>
+  <button class="nav-hamburger" id="navHamburger">☰</button>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="sales-overview.html" class="active">Sales Training</a>
+    <a href="recruiter-overview.html">Recruiter Training</a>
+    <a href="pipeline.html">Pipeline</a>
+    <a href="architecture.html">Architecture</a>
+  </div>
+</nav>
+
+<div class="page-body">
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">Reference · Checklists</div>
+      <h1>✅ <em>Checklists</em></h1>
+      <p>Use these every time — no shortcuts. The intake call checklist and job order quality check exist because skipping steps costs placements.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="sub-nav">
+        <a href="sales-overview.html">Overview</a>
+        <a href="sales-foundation.html">Weeks 1–2: Foundation</a>
+        <a href="sales-execution.html">Weeks 3–4: Execution</a>
+        <a href="sales-acceleration.html">Weeks 5–6: Acceleration</a>
+        <a href="sales-house-rules.html">House Rules</a>
+        <a href="sales-checklists.html" class="active">Checklists</a>
+        <a href="sales-resources.html">Resources</a>
+      </div>
+
+      <!-- Intake Call Checklist -->
+      <div class="section-heading"><span>📞</span> Intake Call Checklist</div>
+      <div class="card">
+        <div class="card-title"><span class="card-icon">🎯</span> Run This Call With the HM + Your Recruiters</div>
+        <p class="text-sm text-muted mb-16">When you get a job order, run this call. Every question matters. Don't skip any.</p>
+        <div class="info-box info mb-16">
+          <div class="info-box-icon">💡</div>
+          <div><div class="info-box-title">Opening Line</div><p>"We'd love to start by having you tell us about the position."</p></div>
+        </div>
+
+        <div class="milestone-section">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <span class="text-sm text-muted milestone-counter">0 / 12 completed</span>
+            <span class="badge badge-blue">Intake Call</span>
+          </div>
+          <div class="progress-bar-wrap" style="margin-bottom:20px"><div class="progress-bar-fill" style="width:0%"></div></div>
+          <ul class="checklist">
+            <li><input type="checkbox" id="ic1"><label for="ic1">"We'd love to start by having you tell us about the position"</label></li>
+            <li><input type="checkbox" id="ic2"><label for="ic2">Why is it open? <strong>Backfill or new role?</strong> (If backfill, ask for the LinkedIn of the person leaving)</label></li>
+            <li><input type="checkbox" id="ic3"><label for="ic3">How long has the role been open?</label></li>
+            <li><input type="checkbox" id="ic4"><label for="ic4">Anyone interviewing already? (If yes, why were they declined?)</label></li>
+            <li><input type="checkbox" id="ic5"><label for="ic5">Top 3 requirements you need to see on a resume to interview?</label></li>
+            <li><input type="checkbox" id="ic6"><label for="ic6">Remote, hybrid, or onsite? (If 100% onsite, suggest hybrid/remote based on market)</label></li>
+            <li><input type="checkbox" id="ic7"><label for="ic7">If FT: does the company sponsor candidates?</label></li>
+            <li><input type="checkbox" id="ic8"><label for="ic8">Tell us about the team. If manager-level+, how many reports?</label></li>
+            <li><input type="checkbox" id="ic9"><label for="ic9"><strong>Sell the process:</strong> "We need quick responses so we don't lose candidates. Same-day feedback on submits — interview or decline with detail."</label></li>
+            <li><input type="checkbox" id="ic10"><label for="ic10">Salary/rate range? (Have recruiter prep market range beforehand)</label></li>
+            <li><input type="checkbox" id="ic11"><label for="ic11">Turn it over to recruiters for their questions</label></li>
+            <li><input type="checkbox" id="ic12"><label for="ic12">Close: "We'll get this into our system and start screening. Submissions come directly from me."</label></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Job Order Quality Check -->
+      <div class="section-heading"><span>🔍</span> Job Order Quality Check</div>
+      <div class="card">
+        <div class="card-title"><span class="card-icon">✅</span> Before Starting Work on Any Job Order, Verify:</div>
+        <p class="text-sm text-muted mb-16">Don't start recruiting until all of these are confirmed. Unqualified job orders waste everyone's time.</p>
+
+        <div class="milestone-section">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <span class="text-sm text-muted milestone-counter">0 / 9 completed</span>
+            <span class="badge badge-navy">Quality Check</span>
+          </div>
+          <div class="progress-bar-wrap" style="margin-bottom:20px"><div class="progress-bar-fill" style="width:0%"></div></div>
+          <ul class="checklist">
+            <li><input type="checkbox" id="jq1"><label for="jq1">Process has been sold to HM? (Same-day feedback commitment)</label></li>
+            <li><input type="checkbox" id="jq2"><label for="jq2">Job in our wheelhouse? Have JD, duration, and rate?</label></li>
+            <li><input type="checkbox" id="jq3"><label for="jq3">Working with manager directly? (Not HR/TA)</label></li>
+            <li><input type="checkbox" id="jq4"><label for="jq4">Intake call scheduled?</label></li>
+            <li><input type="checkbox" id="jq5"><label for="jq5">Will HM interview based on our suggestion?</label></li>
+            <li><input type="checkbox" id="jq6"><label for="jq6">Interview slots already available?</label></li>
+            <li><input type="checkbox" id="jq7"><label for="jq7">Asked for exclusive?</label></li>
+            <li><input type="checkbox" id="jq8"><label for="jq8">HM agreed to same-day feedback?</label></li>
+            <li><input type="checkbox" id="jq9"><label for="jq9">Rates set to market?</label></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Scam Alert -->
+      <div class="section-heading"><span>🚨</span> Scam Alert</div>
+      <div class="card" style="border-left: 4px solid var(--red)">
+        <div class="info-box danger">
+          <div class="info-box-icon">🚨</div>
+          <div>
+            <div class="info-box-title">Scam Alert — Read This</div>
+            <p><strong>Do NOT reply to any emails from "Mike Dades" asking for gift cards.</strong><br>Do NOT click suspicious links.<br>Always verify the sender is <strong>miked@rylem.com</strong> before taking any action.</p>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <p class="text-sm text-muted">If you receive a suspicious message, do not engage. Forward it to Mike immediately at miked@rylem.com and confirm via phone or Slack.</p>
+      </div>
+
+      <div class="nav-buttons">
+        <a href="sales-house-rules.html" class="nav-btn secondary">← House Rules</a>
+        <a href="sales-resources.html" class="nav-btn primary">Next: Resources →</a>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<footer class="site-footer">Rylem Academy — Internal Training Portal | 2026</footer>
+<script src="app.js"></script>
+</body>
+</html>

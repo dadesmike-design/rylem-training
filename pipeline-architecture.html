@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="auth.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rylem — Pipeline Architecture</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  /* ─── CSS VARIABLES (match pipeline.html) ─────────────── */
+  :root {
+    --navy: #0d1520;
+    --dark: #111d2e;
+    --surface: #162030;
+    --card: #1c2b3d;
+    --card-hover: #1f3248;
+    --border: #253344;
+    --border-light: #2d3f52;
+    --accent: #0080ff;
+    --accent-dim: rgba(0,128,255,0.12);
+    --accent-glow: rgba(0,128,255,0.25);
+    --green: #00d084;
+    --green-dim: rgba(0,208,132,0.12);
+    --yellow: #f59e0b;
+    --yellow-dim: rgba(245,158,11,0.12);
+    --red: #ef4444;
+    --red-dim: rgba(239,68,68,0.12);
+    --orange: #f97316;
+    --orange-dim: rgba(249,115,22,0.12);
+    --purple: #8b5cf6;
+    --purple-dim: rgba(139,92,246,0.12);
+    --gold: #f59e0b;
+    --gold-dim: rgba(245,158,11,0.12);
+    --text: #d4e0ef;
+    --text-bright: #eaf1fa;
+    --muted: #6b8099;
+    --muted2: #4a6278;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ─── HEADER ─────────────────────────────────────────── */
+  .header {
+    background: var(--dark);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .logo {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-bright);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--accent); }
+
+  .header-divider {
+    width: 1px;
+    height: 24px;
+    background: var(--border);
+  }
+
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--green);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse-dot 2s infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .header-link {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .header-link:hover {
+    color: var(--text-bright);
+    background: var(--card);
+  }
+
+  .header-link.active {
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  /* ─── MAIN ────────────────────────────────────────────── */
+  .main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ─── HERO ────────────────────────────────────────────── */
+  .hero {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-dim);
+    border: 1px solid rgba(0,128,255,0.25);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    color: var(--text-bright);
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* ─── STATS BAR ───────────────────────────────────────── */
+  .stats-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 56px;
+  }
+
+  .stat-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 10px 18px;
+    border-radius: 50px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .stat-pill:hover {
+    border-color: var(--border-light);
+    transform: translateY(-1px);
+  }
+
+  .stat-pill-val {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-bright);
+    line-height: 1;
+  }
+
+  .stat-pill-label {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* ─── FLOW DIAGRAM ────────────────────────────────────── */
+  .flow-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* ─── ROW ─────────────────────────────────────────────── */
+  .flow-row {
+    position: relative;
+  }
+
+  .row-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .row-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .row-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .row-desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: auto;
+  }
+
+  /* ─── INPUT ROW ───────────────────────────────────────── */
+  .row-inputs .row-number { background: var(--green-dim); color: var(--green); }
+  .row-inputs .row-title  { color: var(--green); }
+
+  /* ─── PIPELINE ROW ────────────────────────────────────── */
+  .row-pipeline .row-number { background: rgba(212,224,239,0.08); color: var(--text-bright); }
+  .row-pipeline .row-title  { color: var(--text-bright); }
+
+  /* ─── BDM ROW ─────────────────────────────────────────── */
+  .row-bdm .row-number { background: var(--accent-dim); color: var(--accent); }
+  .row-bdm .row-title  { color: var(--accent); }
+
+  /* ─── AUTOMATIONS ROW ─────────────────────────────────── */
+  .row-auto .row-number { background: var(--orange-dim); color: var(--orange); }
+  .row-auto .row-title  { color: var(--orange); }
+
+  /* ─── GAMIFICATION ROW ────────────────────────────────── */
+  .row-gam .row-number { background: var(--purple-dim); color: var(--purple); }
+  .row-gam .row-title  { color: var(--purple); }
+
+  /* ─── OUTPUTS ROW ─────────────────────────────────────── */
+  .row-output .row-number { background: var(--gold-dim); color: var(--gold); }
+  .row-output .row-title  { color: var(--gold); }
+
+  /* ─── GRID LAYOUTS ────────────────────────────────────── */
+  .cards-grid {
+    display: grid;
+    gap: 12px;
+  }
+
+  .cards-grid-6 { grid-template-columns: repeat(6, 1fr); }
+  .cards-grid-5 { grid-template-columns: repeat(5, 1fr); }
+  .cards-grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .cards-grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+  /* Pipeline stages: 4 + 2 */
+  .pipeline-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* ─── COMPONENT CARD ──────────────────────────────────── */
+  .comp-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  .comp-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 12px 12px 0 0;
+  }
+
+  /* Color themes per row */
+  .comp-card.green  { border: 1px solid rgba(0,208,132,0.2); }
+  .comp-card.green::before  { background: var(--green); }
+  .comp-card.white  { border: 1px solid var(--border); }
+  .comp-card.white::before  { background: var(--border-light); }
+  .comp-card.blue   { border: 1px solid rgba(0,128,255,0.2); }
+  .comp-card.blue::before   { background: var(--accent); }
+  .comp-card.orange { border: 1px solid rgba(249,115,22,0.2); }
+  .comp-card.orange::before { background: var(--orange); }
+  .comp-card.purple { border: 1px solid rgba(139,92,246,0.2); }
+  .comp-card.purple::before { background: var(--purple); }
+  .comp-card.gold   { border: 1px solid rgba(245,158,11,0.2); }
+  .comp-card.gold::before   { background: var(--gold); }
+  .comp-card.red    { border: 1px solid rgba(239,68,68,0.2); }
+  .comp-card.red::before    { background: var(--red); }
+
+  .comp-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+
+  .comp-card.green:hover  { border-color: rgba(0,208,132,0.5); }
+  .comp-card.white:hover  { border-color: var(--border-light); }
+  .comp-card.blue:hover   { border-color: rgba(0,128,255,0.5); }
+  .comp-card.orange:hover { border-color: rgba(249,115,22,0.5); }
+  .comp-card.purple:hover { border-color: rgba(139,92,246,0.5); }
+  .comp-card.gold:hover   { border-color: rgba(245,158,11,0.5); }
+  .comp-card.red:hover    { border-color: rgba(239,68,68,0.5); }
+
+  .comp-card.active {
+    box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+  }
+  .comp-card.green.active  { border-color: var(--green);  background: #182d26; }
+  .comp-card.white.active  { border-color: var(--border-light); background: var(--card-hover); }
+  .comp-card.blue.active   { border-color: var(--accent); background: #162338; }
+  .comp-card.orange.active { border-color: var(--orange); background: #1e2318; }
+  .comp-card.purple.active { border-color: var(--purple); background: #1d1832; }
+  .comp-card.gold.active   { border-color: var(--gold);   background: #1e1d14; }
+  .comp-card.red.active    { border-color: var(--red);    background: #1e1818; }
+
+  .card-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-bottom: 4px;
+  }
+
+  .card-sub {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .card-expand-icon {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    font-size: 11px;
+    color: var(--muted2);
+    transition: transform 0.2s;
+  }
+
+  .comp-card.active .card-expand-icon {
+    transform: rotate(180deg);
+  }
+
+  /* ─── DETAIL PANEL ────────────────────────────────────── */
+  .detail-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, opacity 0.25s ease;
+    opacity: 0;
+  }
+
+  .detail-panel.open {
+    max-height: 300px;
+    opacity: 1;
+  }
+
+  .detail-inner {
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    margin-top: 12px;
+  }
+
+  .detail-desc {
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .detail-example {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 10px;
+    padding: 8px 10px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 6px;
+    border-left: 2px solid var(--border-light);
+  }
+
+  .detail-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: rgba(0,0,0,0.2);
+  }
+
+  /* ─── CONNECTOR ARROWS ────────────────────────────────── */
+  .flow-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 0;
+    gap: 4px;
+  }
+
+  .connector-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .connector-line {
+    width: 2px;
+    height: 24px;
+    border-radius: 2px;
+  }
+
+  .connector-arrow {
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  /* Color variants */
+  .conn-green  .connector-line { background: var(--green); }
+  .conn-green  .connector-label,
+  .conn-green  .connector-arrow { color: var(--green); }
+
+  .conn-blue   .connector-line { background: var(--accent); }
+  .conn-blue   .connector-label,
+  .conn-blue   .connector-arrow { color: var(--accent); }
+
+  .conn-orange .connector-line { background: var(--orange); }
+  .conn-orange .connector-label,
+  .conn-orange .connector-arrow { color: var(--orange); }
+
+  .conn-purple .connector-line { background: var(--purple); }
+  .conn-purple .connector-label,
+  .conn-purple .connector-arrow { color: var(--purple); }
+
+  .conn-gold   .connector-line { background: var(--gold); }
+  .conn-gold   .connector-label,
+  .conn-gold   .connector-arrow { color: var(--gold); }
+
+  /* ─── PIPELINE STAGE SPECIFICS ────────────────────────── */
+  .stage-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 800;
+    margin-top: 8px;
+  }
+
+  .stage-arrow {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: var(--muted2);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .pipeline-wrapper {
+    position: relative;
+  }
+
+  /* ─── LEVEL BADGES ────────────────────────────────────── */
+  .level-dots {
+    display: flex;
+    gap: 4px;
+    margin-top: 8px;
+  }
+
+  .level-dot {
+    height: 4px;
+    border-radius: 2px;
+    flex: 1;
+  }
+
+  /* ─── DATA FILES SECTION ──────────────────────────────── */
+  .data-files-row {
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .data-files-title {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .data-files-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .data-file-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    transition: border-color 0.2s;
+  }
+
+  .data-file-card:hover {
+    border-color: var(--purple);
+  }
+
+  .data-file-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .data-file-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-bottom: 3px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  .data-file-desc {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* ─── LEGEND ──────────────────────────────────────────── */
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .legend-line {
+    width: 24px;
+    height: 2px;
+    border-radius: 2px;
+  }
+
+  /* ─── MOBILE ──────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .cards-grid-6,
+    .cards-grid-5,
+    .cards-grid-4,
+    .cards-grid-3,
+    .pipeline-grid,
+    .data-files-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stage-arrow { display: none; }
+    .row-desc { display: none; }
+    .stats-bar { gap: 8px; }
+    .stat-pill { padding: 8px 14px; }
+    .stat-pill-val { font-size: 18px; }
+  }
+
+  @media (max-width: 600px) {
+    .main { padding: 24px 16px 60px; }
+    .hero h1 { font-size: 26px; }
+    .cards-grid-6,
+    .cards-grid-5,
+    .cards-grid-4,
+    .cards-grid-3,
+    .pipeline-grid,
+    .data-files-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ─── TOAST ───────────────────────────────────────────── */
+  .arch-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--card);
+    border: 1px solid var(--border-light);
+    color: var(--text-bright);
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    transform: translateY(80px);
+    opacity: 0;
+    transition: transform 0.25s, opacity 0.25s;
+    z-index: 200;
+  }
+
+  .arch-toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══════════════════════════════════════════════ -->
+<header class="header">
+  <div class="header-left">
+    <a href="pipeline.html" class="logo">RYLEM <span>PIPELINE</span></a>
+    <div class="header-divider"></div>
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      LIVE
+    </div>
+    <div class="header-divider"></div>
+    <a href="index.html" class="header-link">🏠 Home</a>
+    <a href="pipeline.html" class="header-link">📊 Pipeline</a>
+    <a href="pipeline-architecture.html" class="header-link active">🗺️ Architecture</a>
+    <a href="sales-overview.html" class="header-link">📚 Sales</a>
+    <a href="recruiter-overview.html" class="header-link">🔍 Recruiting</a>
+  </div>
+  <div class="header-right">
+    <a href="pipeline.html" class="header-link">← Back to Pipeline</a>
+  </div>
+</header>
+
+<!-- ═══ MAIN ═════════════════════════════════════════════════ -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">🗺️ Pipeline System</div>
+    <h1>Pipeline Architecture</h1>
+    <p class="hero-sub">How leads flow from research to revenue — click any component to explore</p>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat-pill">
+      <span class="stat-pill-val" style="color:var(--green)">38</span>
+      <span class="stat-pill-label">Active Leads</span>
+    </div>
+    <div class="stat-pill">
+      <span class="stat-pill-val" style="color:var(--text-bright)">6</span>
+      <span class="stat-pill-label">Pipeline Stages</span>
+    </div>
+    <div class="stat-pill">
+      <span class="stat-pill-val" style="color:var(--orange)">4</span>
+      <span class="stat-pill-label">Automated Workflows</span>
+    </div>
+    <div class="stat-pill">
+      <span class="stat-pill-val" style="color:var(--purple)">8</span>
+      <span class="stat-pill-label">Badges Available</span>
+    </div>
+    <div class="stat-pill">
+      <span class="stat-pill-val" style="color:var(--gold)">4</span>
+      <span class="stat-pill-label">Rep Levels</span>
+    </div>
+    <div class="stat-pill">
+      <span class="stat-pill-val" style="color:var(--accent)">43</span>
+      <span class="stat-pill-label">Active Contractors</span>
+    </div>
+  </div>
+
+  <!-- ═══ FLOW DIAGRAM ════════════════════════════════════════ -->
+  <div class="flow-diagram">
+
+    <!-- ─── ROW 1: INPUTS ─────────────────────────────────── -->
+    <div class="flow-row row-inputs">
+      <div class="row-label">
+        <div class="row-number">1</div>
+        <span class="row-title">Lead Inputs</span>
+        <span class="row-desc">6 sources feeding the pipeline</span>
+      </div>
+      <div class="cards-grid cards-grid-6">
+
+        <div class="comp-card green" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">🤖</div>
+          <div class="card-title">AI Research</div>
+          <div class="card-sub">Hiring signals → lead cards</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">The AI assistant scans company career pages, LinkedIn, and news for hiring signals. When a company posts 10+ jobs in Rylem's verticals, a lead card is created automatically.</div>
+              <div class="detail-example">Ex: "FIS posted 12 IT roles + Supplier Diversity Lead — lead created with signal attached"</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card green" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">🔍</div>
+          <div class="card-title">ZoomInfo</div>
+          <div class="card-sub">Contact enrichment</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">ZoomInfo enriches lead cards with verified contact data: decision-maker names, direct emails, phone numbers, and LinkedIn profiles. Professional plan with API access.</div>
+              <div class="detail-example">Ex: Company added → ZoomInfo returns "Sarah Chen, VP Procurement, sarah@company.com, (206) 555-1234"</div>
+              <span class="detail-status" style="background:var(--yellow-dim);color:var(--yellow)">🔧 In Progress</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card green" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">🗄️</div>
+          <div class="card-title">CEIPAL Database</div>
+          <div class="card-sub">Dormant client reactivation</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Rylem's ATS holds 100,000+ candidates and years of client history. Dormant accounts (no activity 90+ days) are flagged as warm leads — they already know us.</div>
+              <div class="detail-example">Ex: "Accenture — last order June 2023 — 3 contracts placed. Flag for reactivation outreach."</div>
+              <span class="detail-status" style="background:var(--yellow-dim);color:var(--yellow)">🔧 In Progress</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card green" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">🤝</div>
+          <div class="card-title">Diversity Outreach</div>
+          <div class="card-sub">Batch supplier campaigns</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Rylem is diversity-certified. Batch campaigns go to enterprise companies with supplier diversity programs — Rylem's certification is a key differentiator for these contracts.</div>
+              <div class="detail-example">Ex: "Fortune 500 diversity supplier portal notification → outreach batch to 40 procurement contacts"</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card green" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">✏️</div>
+          <div class="card-title">Manual Entry</div>
+          <div class="card-sub">BDM-sourced leads</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">BDMs add leads they discover through networking, events, or cold prospecting. They fill in company, contact, value, and signal — the card goes straight into New Leads.</div>
+              <div class="detail-example">Ex: BDM meets HR director at networking event → adds company to pipeline with notes</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card green" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">📥</div>
+          <div class="card-title">Inbound</div>
+          <div class="card-sub">Website · Referrals · VMS</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Inbound leads come from rylem.com contact forms, referrals from existing clients, and VMS portal notifications. These are the highest-priority leads — they came to us.</div>
+              <div class="detail-example">Ex: VMS portal drops an RFP → auto-creates a lead card tagged "Inbound / VMS" in New Leads</div>
+              <span class="detail-status" style="background:var(--accent-dim);color:var(--accent)">📋 Planned</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CONNECTOR: green, lead flow -->
+    <div class="flow-connector conn-green">
+      <div class="connector-label" style="color:var(--green)">Lead Flow</div>
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+    </div>
+
+    <!-- ─── ROW 2: PIPELINE STAGES ────────────────────────── -->
+    <div class="flow-row row-pipeline">
+      <div class="row-label">
+        <div class="row-number">2</div>
+        <span class="row-title">Pipeline Stages</span>
+        <span class="row-desc">Kanban flow — left to right</span>
+      </div>
+      <div class="pipeline-wrapper">
+        <div class="pipeline-grid">
+
+          <div class="comp-card white" style="position:relative" onclick="toggleCard(this)">
+            <div class="card-expand-icon">▾</div>
+            <div class="stage-arrow">→</div>
+            <div class="card-icon">🆕</div>
+            <div class="card-title">New Leads</div>
+            <div class="card-sub">Research done, ready to contact</div>
+            <div class="stage-count" style="background:rgba(212,224,239,0.1);color:var(--muted)">📋</div>
+            <div class="detail-panel">
+              <div class="detail-inner">
+                <div class="detail-desc">Lead card created with company info, contact details, hiring signal, and value estimate. BDM reviews card and begins outreach.</div>
+                <div class="detail-example">Ex: "FIS — Sarah Chen — $150K potential — Hiring Supplier Diversity Lead"</div>
+                <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="comp-card white" style="position:relative" onclick="toggleCard(this)">
+            <div class="card-expand-icon">▾</div>
+            <div class="stage-arrow">→</div>
+            <div class="card-icon">📬</div>
+            <div class="card-title">Contacted</div>
+            <div class="card-sub">Email sent or call made</div>
+            <div class="stage-count" style="background:rgba(0,128,255,0.1);color:var(--accent)">⏳</div>
+            <div class="detail-panel">
+              <div class="detail-inner">
+                <div class="detail-desc">First touch made — email sent or call logged. Waiting for a response. Automated follow-up sequence begins on Day 1. Going Cold alert fires after 7 days of silence.</div>
+                <div class="detail-example">Ex: Initial email sent Day 1 → voicemail Day 4 → email Day 8 → final follow Day 14</div>
+                <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="comp-card white" style="position:relative" onclick="toggleCard(this)">
+            <div class="card-expand-icon">▾</div>
+            <div class="stage-arrow">→</div>
+            <div class="card-icon">📅</div>
+            <div class="card-title">Meeting Booked</div>
+            <div class="card-sub">Discovery call scheduled</div>
+            <div class="stage-count" style="background:var(--green-dim);color:var(--green)">🔥</div>
+            <div class="detail-panel">
+              <div class="detail-inner">
+                <div class="detail-desc">The #1 KPI milestone. Discovery or intro call is on the calendar. BDM preps with company brief, talking points, and open roles. 25 points awarded instantly.</div>
+                <div class="detail-example">Ex: "Microsoft call confirmed Thu 2PM — brief auto-generated with open roles + hiring signals"</div>
+                <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="comp-card white" style="position:relative" onclick="toggleCard(this)">
+            <div class="card-expand-icon">▾</div>
+            <div class="stage-arrow">→</div>
+            <div class="card-icon">📄</div>
+            <div class="card-title">Proposal Sent</div>
+            <div class="card-sub">Pricing delivered, deciding</div>
+            <div class="stage-count" style="background:var(--yellow-dim);color:var(--yellow)">⚡</div>
+            <div class="detail-panel">
+              <div class="detail-inner">
+                <div class="detail-desc">Pricing and SOW delivered to the prospect. Decision pending. BDM follows up at 3, 7, and 14 days. Stage shows days since proposal was sent.</div>
+                <div class="detail-example">Ex: "Proposal sent to Tenet Healthcare — $120K/yr — Day 5 — follow up today"</div>
+                <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="comp-card white" onclick="toggleCard(this)" style="border-color:rgba(0,208,132,0.25)">
+            <div class="card-expand-icon">▾</div>
+            <div class="card-icon">🏆</div>
+            <div class="card-title" style="color:var(--green)">Won</div>
+            <div class="card-sub">Deal closed, job orders coming</div>
+            <div class="detail-panel">
+              <div class="detail-inner">
+                <div class="detail-desc">Deal closed. Contract signed. Job orders begin flowing. Recruiters are notified to start sourcing. Win tracked to revenue impact metrics.</div>
+                <div class="detail-example">Ex: "New client signed — 3 IT roles open — recruiters notified — $75K estimated first year"</div>
+                <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="comp-card white" onclick="toggleCard(this)" style="border-color:rgba(239,68,68,0.2)">
+            <div class="card-expand-icon">▾</div>
+            <div class="card-icon">❌</div>
+            <div class="card-title" style="color:var(--red)">Lost</div>
+            <div class="card-sub">Didn't close — log reason</div>
+            <div class="detail-panel">
+              <div class="detail-inner">
+                <div class="detail-desc">Deal didn't close. Reason is logged (price, timing, competitor, no need). Lost leads can be reactivated in 90 days if conditions change.</div>
+                <div class="detail-example">Ex: "Lost — went with incumbent vendor — revisit Q4 when their contract renews"</div>
+                <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- CONNECTOR: blue, BDM workflow -->
+    <div class="flow-connector conn-blue">
+      <div class="connector-label" style="color:var(--accent)">Rep Actions</div>
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+    </div>
+
+    <!-- ─── ROW 3: BDM DAILY WORKFLOW ────────────────────── -->
+    <div class="flow-row row-bdm">
+      <div class="row-label">
+        <div class="row-number">3</div>
+        <span class="row-title">BDM Daily Workflow</span>
+        <span class="row-desc">What reps do every day</span>
+      </div>
+      <div class="cards-grid cards-grid-5">
+
+        <div class="comp-card blue" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">👁️</div>
+          <div class="card-title">Open Dashboard</div>
+          <div class="card-sub">pipeline.html?rep=julia</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Rep opens their personalized view. URL parameter loads their specific leads, stats, and gamification data. Everything filtered to their pipeline.</div>
+              <div class="detail-example">Ex: pipeline.html?rep=julia → shows Julia's 12 leads, her points, her call list for the day</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card blue" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">🔥</div>
+          <div class="card-title">Review Hot List</div>
+          <div class="card-sub">Hot leads · Going Cold alerts</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Hot Leads panel shows contacts that need action today. Going Cold alerts flag leads with 7+ days of inactivity in red. Sequence status shows where each lead is in the follow-up sequence.</div>
+              <div class="detail-example">Ex: "3 HOT leads today — 2 GOING COLD — Day 4 email due to 5 contacts"</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card blue" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">📞</div>
+          <div class="card-title">Make Calls / Send Emails</div>
+          <div class="card-sub">Execute outreach</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Rep works their call list. Direct dial links open the dialer. Email links pre-fill personalized templates. RingCentral records all calls automatically.</div>
+              <div class="detail-example">Ex: Click "📞 CALL NOW" → RingCentral dials → call recorded → transcript processed overnight</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card blue" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">📝</div>
+          <div class="card-title">Log Outcomes</div>
+          <div class="card-sub">Reply · Meeting · Voicemail · No Answer</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">After each touch, rep logs the outcome with one click. The outcome triggers the next step: move the lead, award points, pause the sequence, or schedule a follow-up.</div>
+              <div class="detail-example">Ex: "Got Reply" → lead moves to Meeting Booked stage → 25 points awarded → sequence pauses</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card blue" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">📊</div>
+          <div class="card-title">Check Leaderboard</div>
+          <div class="card-sub">Points · Rankings · Challenges</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Reps see their rank vs. teammates in real time. Weekly challenge progress tracked. Badges earned for milestones. Healthy competition drives activity volume.</div>
+              <div class="detail-example">Ex: Julia #1 this week with 340 pts — Mike #2 with 295 — "Dialer" badge 2 calls away</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CONNECTOR: orange, automation -->
+    <div class="flow-connector conn-orange">
+      <div class="connector-label" style="color:var(--orange)">Automations</div>
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+    </div>
+
+    <!-- ─── ROW 4: AUTOMATIONS ─────────────────────────────── -->
+    <div class="flow-row row-auto">
+      <div class="row-label">
+        <div class="row-number">4</div>
+        <span class="row-title">Automated Workflows</span>
+        <span class="row-desc">Runs behind the scenes, 24/7</span>
+      </div>
+      <div class="cards-grid cards-grid-4">
+
+        <div class="comp-card orange" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">⏰</div>
+          <div class="card-title">7 AM Pipeline Tracker</div>
+          <div class="card-sub">RingCentral + Outlook sync</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Every morning at 7 AM: pulls RingCentral call logs and Outlook sent emails from the past 24 hours, matches them to leads in the pipeline, flags any replies received, and updates activity timestamps.</div>
+              <div class="detail-example">Ex: "Julia sent 3 emails yesterday — 1 reply detected — lead auto-moved to Contacted — Going Cold cleared"</div>
+              <span class="detail-status" style="background:var(--yellow-dim);color:var(--yellow)">🔧 In Progress</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card orange" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">📧</div>
+          <div class="card-title">Follow-up Sequences</div>
+          <div class="card-sub">Day 1 · 4 · 8 · 14 via CEIPAL</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Once a lead enters the Contacted stage, a 4-touch email sequence fires automatically via CEIPAL. Each email is personalized to the company and rep. Sequence pauses if a reply is detected.</div>
+              <div class="detail-example">Ex: "Day 1: Initial outreach → Day 4: Value add → Day 8: Case study → Day 14: Last try"</div>
+              <span class="detail-status" style="background:var(--yellow-dim);color:var(--yellow)">🔧 In Progress</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card orange" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">🌡️</div>
+          <div class="card-title">Going Cold Alerts</div>
+          <div class="card-sub">7+ days no activity → flag red</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Any lead with zero logged activity for 7+ days is automatically flagged as "Going Cold" with a red indicator. BDMs see these first in the dashboard so nothing falls through the cracks.</div>
+              <div class="detail-example">Ex: Lead at Day 10 with no activity → red "Going Cold" badge → appears in rep's hot list immediately</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card orange" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">🧠</div>
+          <div class="card-title">Daily Intel Brief</div>
+          <div class="card-sub">AI scans → Telegram delivery</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Every morning the AI scans target companies for hiring signals, funding news, and expansion announcements. A briefing is pushed to Telegram with actionable leads to add to the pipeline.</div>
+              <div class="detail-example">Ex: "🔥 Salesforce just posted 45 IT roles — 3 in your territory — add to pipeline? [Yes/No]"</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CONNECTOR: purple, gamification -->
+    <div class="flow-connector conn-purple">
+      <div class="connector-label" style="color:var(--purple)">Gamification Events</div>
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+    </div>
+
+    <!-- ─── ROW 5: GAMIFICATION ───────────────────────────── -->
+    <div class="flow-row row-gam">
+      <div class="row-label">
+        <div class="row-number">5</div>
+        <span class="row-title">Gamification Layer</span>
+        <span class="row-desc">Activity → Points → Levels → Badges</span>
+      </div>
+      <div class="cards-grid cards-grid-4">
+
+        <div class="comp-card purple" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">⚡</div>
+          <div class="card-title">Points System</div>
+          <div class="card-sub">Every action earns points</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Points are awarded automatically when outcomes are logged. Calls, emails, meetings, and placements all earn different point values — weighted by impact on revenue.</div>
+              <div class="detail-example">Call logged: +5pts · Email sent: +3pts · Meeting booked: +25pts · Placement: +100pts · New lead: +2pts</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card purple" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">📈</div>
+          <div class="card-title">Rep Levels</div>
+          <div class="card-sub">Rookie → Hunter → Closer → Rainmaker</div>
+          <div class="level-dots">
+            <div class="level-dot" style="background:#6b8099"></div>
+            <div class="level-dot" style="background:#0080ff"></div>
+            <div class="level-dot" style="background:#8b5cf6"></div>
+            <div class="level-dot" style="background:#f59e0b"></div>
+          </div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Points accumulate to unlock levels. Each level has a distinct color and badge shown on the leaderboard. Rainmaker is the top — you have to earn it.</div>
+              <div class="detail-example">Rookie: 0–499 · Hunter: 500–1,499 · Closer: 1,500–3,999 · Rainmaker: 4,000+</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card purple" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">🏅</div>
+          <div class="card-title">Milestone Badges</div>
+          <div class="card-sub">8 badges to unlock</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Badges unlock for major milestones. They display permanently on your profile and leaderboard card. Some are easy, some are hard — they tell the story of how you sell.</div>
+              <div class="detail-example">🎯 First Blood · 📞 Dialer · 🔥 On Fire · 💰 Closer · 🏆 Pipeline Full · ⭐ Perfect Week · 🚀 Rainmaker · 👑 Top Dog</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card purple" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">🏆</div>
+          <div class="card-title">Leaderboard + Challenges</div>
+          <div class="card-sub">Weekly rankings + bonus events</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Live leaderboard ranks all reps by weekly and all-time points. Weekly challenges (e.g., "Log 20 calls this week") offer bonus point multipliers — keeps the energy up all week.</div>
+              <div class="detail-example">Ex: "Launch Week Challenge: 20 calls = +50 bonus pts — Julia at 14/20 — Mike at 8/20"</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CONNECTOR: gold, outputs -->
+    <div class="flow-connector conn-gold">
+      <div class="connector-label" style="color:var(--gold)">Business Outputs</div>
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+    </div>
+
+    <!-- ─── ROW 6: OUTPUTS ─────────────────────────────────── -->
+    <div class="flow-row row-output">
+      <div class="row-label">
+        <div class="row-number">6</div>
+        <span class="row-title">Outputs</span>
+        <span class="row-desc">What the system produces</span>
+      </div>
+      <div class="cards-grid cards-grid-5">
+
+        <div class="comp-card gold" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">🤝</div>
+          <div class="card-title">Sales Meetings</div>
+          <div class="card-sub">The #1 KPI — every week</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Every lead that moves to Meeting Booked is a win. Target: 3–5 new discovery calls per BDM per week. This is the metric everything else is optimized to drive.</div>
+              <div class="detail-example">Ex: "Week of Mar 17 — 4 meetings booked — 2 IT, 1 Finance, 1 Diversity"</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card gold" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">📊</div>
+          <div class="card-title">Leaderboard Rankings</div>
+          <div class="card-sub">Visibility + healthy competition</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Public rankings create accountability and healthy competition. Top performers are visible to the whole team. Rankings reset weekly but all-time stats are permanent.</div>
+              <div class="detail-example">Ex: #1 Julia — 425 pts — Closer level — 🔥 On Fire badge — 3 meetings this week</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card gold" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">📈</div>
+          <div class="card-title">Pipeline Reports</div>
+          <div class="card-sub">Stage counts · Conversion rates</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Real-time view of total leads per stage, conversion rates between stages, average time in each stage, and pipeline velocity. Identifies bottlenecks instantly.</div>
+              <div class="detail-example">Ex: "38 active leads — 40% contact→meeting rate — avg 6 days in Contacted stage"</div>
+              <span class="detail-status" style="background:var(--accent-dim);color:var(--accent)">📋 Planned</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card gold" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">⚡</div>
+          <div class="card-title">Activity Metrics</div>
+          <div class="card-sub">Calls/day · Emails/day · Meetings/week</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Per-rep daily activity metrics. Calls made, emails sent, meetings booked — tracked against weekly targets. Managers see this view to coach reps effectively.</div>
+              <div class="detail-example">Ex: "Julia: 12 calls, 8 emails, 1 meeting this week — on track for target"</div>
+              <span class="detail-status" style="background:var(--green-dim);color:var(--green)">✅ Live</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card gold" onclick="toggleCard(this)">
+          <div class="card-expand-icon">▾</div>
+          <div class="card-icon">💰</div>
+          <div class="card-title">Revenue Impact</div>
+          <div class="card-sub">Won deals → placements → margin</div>
+          <div class="detail-panel">
+            <div class="detail-inner">
+              <div class="detail-desc">Won deals feed job orders → recruiters fill roles → placements generate margin. The pipeline tracks estimated deal value from first touch to first placement check.</div>
+              <div class="detail-example">Ex: "$120K deal won → 4 roles opened → 3 filled → $36K margin generated (est)"</div>
+              <span class="detail-status" style="background:var(--accent-dim);color:var(--accent)">📋 Planned</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ─── DATA FILES ROW ─────────────────────────────────── -->
+    <div class="data-files-row">
+      <div class="data-files-title">📁 Data Storage Layer — Purple = reads/writes</div>
+      <div class="data-files-grid">
+
+        <div class="data-file-card">
+          <div class="data-file-icon">📋</div>
+          <div>
+            <div class="data-file-name">leads.json</div>
+            <div class="data-file-desc">All pipeline leads — company, contact, value, stage, source, tags. Updated by every BDM action.</div>
+          </div>
+        </div>
+
+        <div class="data-file-card">
+          <div class="data-file-icon">🏆</div>
+          <div>
+            <div class="data-file-name">gamification.json</div>
+            <div class="data-file-desc">Points, levels, badges, streaks, and weekly challenge progress per rep. Updated on every logged outcome.</div>
+          </div>
+        </div>
+
+        <div class="data-file-card">
+          <div class="data-file-icon">🧠</div>
+          <div>
+            <div class="data-file-name">pipeline-context.json</div>
+            <div class="data-file-desc">Financials, active contractors, and client data. Fed to the AI for intelligent briefings and queries.</div>
+          </div>
+        </div>
+
+        <div class="data-file-card">
+          <div class="data-file-icon">🏢</div>
+          <div>
+            <div class="data-file-name">clients.json</div>
+            <div class="data-file-desc">Full client records for AI chat queries. Ask "which clients are in IT?" and get instant answers.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ─── LEGEND ─────────────────────────────────────────── -->
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-line" style="background:var(--green)"></div>
+        Lead Flow
+      </div>
+      <div class="legend-item">
+        <div class="legend-line" style="background:var(--accent)"></div>
+        BDM Actions
+      </div>
+      <div class="legend-item">
+        <div class="legend-line" style="background:var(--orange)"></div>
+        Automations
+      </div>
+      <div class="legend-item">
+        <div class="legend-line" style="background:var(--purple)"></div>
+        Gamification Events
+      </div>
+      <div class="legend-item">
+        <div class="legend-line" style="background:var(--gold)"></div>
+        Business Outputs
+      </div>
+      <div class="legend-item" style="margin-left:12px;font-size:11px;color:var(--muted)">
+        ✅ Live &nbsp;&nbsp; 🔧 In Progress &nbsp;&nbsp; 📋 Planned
+      </div>
+    </div>
+
+  </div><!-- /flow-diagram -->
+
+</main>
+
+<!-- TOAST -->
+<div class="arch-toast" id="arch-toast"></div>
+
+<!-- CHAT WIDGET -->
+<script src="chat-widget.js"></script>
+
+<script>
+  // ─── TOGGLE CARD EXPAND/COLLAPSE ─────────────────────────
+  function toggleCard(card) {
+    const panel = card.querySelector('.detail-panel');
+    const isOpen = card.classList.contains('active');
+
+    // Close all other cards in the same grid
+    const grid = card.closest('.cards-grid, .pipeline-grid');
+    if (grid) {
+      grid.querySelectorAll('.comp-card.active').forEach(c => {
+        if (c !== card) {
+          c.classList.remove('active');
+          c.querySelector('.detail-panel').classList.remove('open');
+        }
+      });
+    }
+
+    if (isOpen) {
+      card.classList.remove('active');
+      panel.classList.remove('open');
+    } else {
+      card.classList.add('active');
+      panel.classList.add('open');
+
+      // Smooth scroll into view on mobile
+      if (window.innerWidth < 900) {
+        setTimeout(() => {
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 50);
+      }
+    }
+  }
+
+  // ─── TOAST ──────────────────────────────────────────────
+  function showToast(msg) {
+    const t = document.getElementById('arch-toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // ─── KEYBOARD SHORTCUT ──────────────────────────────────
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.comp-card.active').forEach(c => {
+        c.classList.remove('active');
+        c.querySelector('.detail-panel').classList.remove('open');
+      });
+    }
+  });
+
+  // ─── WELCOME TOAST ──────────────────────────────────────
+  setTimeout(() => {
+    showToast('💡 Click any component to explore how it works');
+  }, 800);
+</script>
+
+</body>
+</html>
