@@ -661,3 +661,15 @@ a:hover { color: var(--text-white); }
 .mb-16 { margin-bottom: 16px; }
 .text-sm { font-size: 13px; }
 .text-muted { color: var(--text-muted); }
+
+/* Cold Call Script Quotes */
+.script-quote {
+  border-left: 3px solid var(--accent, #6366f1);
+  padding: 10px 16px;
+  margin: 0 0 16px;
+  background: var(--bg-card);
+  border-radius: 4px;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.6;
+}
