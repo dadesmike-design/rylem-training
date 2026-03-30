@@ -1103,13 +1103,13 @@ const REP_VERTICALS = {
 const DEMO_LEADS = [
   { id: 'demo-1', company: 'Cascade Health Systems', contact: 'Rachel Torres (r.torres@cascadehealth.com)', value: 120000, signal: 'Posted 14 open IT roles in 2 weeks — scaling fast', column: 'Meeting Booked', source: 'AI Research', date: new Date().toISOString().split('T')[0], tags: ['IT', 'Finance'] },
   { id: 'demo-2', company: 'Pinnacle Financial Group', contact: 'Marcus Chen (m.chen@pinnaclefg.com)', value: 85000, signal: 'New CFO starting Q2 — restructuring finance team', column: 'Contacted', source: 'AI Research', date: new Date(Date.now() - 86400000).toISOString().split('T')[0], tags: ['Finance'] },
-  { id: 'demo-3', company: 'Redwood Logistics', contact: 'Sarah Kim (s.kim@redwoodlogistics.com)', value: 65000, signal: 'Expanding Portland office — 8 marketing roles', column: 'Contacted', source: 'Diversity Outreach', date: new Date(Date.now() - 86400000 * 2).toISOString().split('T')[0], tags: ['Marketing', 'Creative'] },
+  { id: 'demo-3', company: 'Redwood Logistics', contact: 'Sarah Kim (s.kim@redwoodlogistics.com)', value: 65000, signal: 'Expanding Portland office — 8 marketing roles', column: 'Contacted', source: 'Outreach Campaign', date: new Date(Date.now() - 86400000 * 2).toISOString().split('T')[0], tags: ['Marketing', 'Creative'] },
   { id: 'demo-4', company: 'Atlas Cloud Solutions', contact: 'James Rivera (j.rivera@atlascloud.io)', value: 200000, signal: 'Series C closed — hiring 30+ engineers', column: 'Contacted', source: 'AI Research', date: new Date(Date.now() - 86400000 * 1).toISOString().split('T')[0], tags: ['IT'] },
-  { id: 'demo-5', company: 'Meridian Insurance', contact: 'Linda Park (l.park@meridianins.com)', value: 45000, signal: 'Compliance team understaffed — 4 open reqs', column: 'Contacted', source: 'Diversity Outreach', date: new Date(Date.now() - 86400000 * 4).toISOString().split('T')[0], tags: ['Finance', 'Admin'] },
+  { id: 'demo-5', company: 'Meridian Insurance', contact: 'Linda Park (l.park@meridianins.com)', value: 45000, signal: 'Compliance team understaffed — 4 open reqs', column: 'Contacted', source: 'Outreach Campaign', date: new Date(Date.now() - 86400000 * 4).toISOString().split('T')[0], tags: ['Finance', 'Admin'] },
   { id: 'demo-6', company: 'Velocity Motors', contact: 'Tom Nguyen (t.nguyen@velocitymotors.com)', value: 55000, signal: 'IT manager left — backfilling + 2 new hires', column: 'Contacted', source: 'Manual', date: new Date(Date.now() - 86400000 * 5).toISOString().split('T')[0], tags: ['IT', 'HR'] },
   { id: 'demo-7', company: 'Brightpath Education', contact: 'Amy Walsh (a.walsh@brightpathedu.org)', value: 35000, signal: 'Federal grant approved — building data analytics team', column: 'Contacted', source: 'AI Research', date: new Date(Date.now() - 86400000 * 2).toISOString().split('T')[0], tags: ['IT', 'Admin'] },
   { id: 'demo-8', company: 'Summit Manufacturing', contact: 'Derek Olsen (d.olsen@summitmfg.com)', value: 90000, signal: 'New plant opening Q3 — HR & Finance buildout', column: 'New Leads', source: 'AI Research', date: new Date(Date.now() - 86400000 * 1).toISOString().split('T')[0], tags: ['HR', 'Finance'] },
-  { id: 'demo-9', company: 'NovaTech Labs', contact: 'Priya Sharma (p.sharma@novatechlabs.com)', value: 150000, signal: 'Gov contract won — need 20 cleared engineers ASAP', column: 'Meeting Booked', source: 'Diversity Outreach', date: new Date().toISOString().split('T')[0], tags: ['IT'] },
+  { id: 'demo-9', company: 'NovaTech Labs', contact: 'Priya Sharma (p.sharma@novatechlabs.com)', value: 150000, signal: 'Gov contract won — need 20 cleared engineers ASAP', column: 'Meeting Booked', source: 'Outreach Campaign', date: new Date().toISOString().split('T')[0], tags: ['IT'] },
   { id: 'demo-10', company: 'Harborview Media', contact: 'Chris DeLuca (c.deluca@harborviewmedia.com)', value: 40000, signal: 'Creative director hiring — need designers and content leads', column: 'Contacted', source: 'Manual', date: new Date(Date.now() - 86400000 * 6).toISOString().split('T')[0], tags: ['Creative', 'Marketing'] },
 ];
 
@@ -1455,7 +1455,7 @@ function renderSequences(groups) {
     const nextStr = nextDate ? nextDate.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}) : '—';
 
     const srcLabels = {
-      'Diversity Outreach': '📧 Diversity Outreach Campaign',
+      'Outreach Campaign': '📧 Outreach Campaign',
       'AI Research': '🤖 AI Research Prospects',
       'Manual': '✍️ Manual Outreach'
     };
